@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>H1-H4 Word Buddy Quest</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero-panel" aria-label="夥伴與遊戲進度">
+        <div class="top-bar">
+          <div>
+            <p class="eyebrow">H1-H4 English Quest</p>
+            <h1>Word Buddy Quest</h1>
+          </div>
+          <button class="icon-button" id="soundButton" type="button" aria-label="播放英文單字">
+            <span aria-hidden="true">🔊</span>
+          </button>
+        </div>
+
+        <div class="creature-stage" aria-live="polite">
+          <div class="spark spark-a"></div>
+          <div class="spark spark-b"></div>
+          <svg class="buddy buddy-idle" viewBox="0 0 260 220" role="img" aria-label="原創單字夥伴 Flufflet">
+            <defs>
+              <linearGradient id="bodyGradient" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#ffef8a" />
+                <stop offset="100%" stop-color="#ff9f7a" />
+              </linearGradient>
+              <linearGradient id="wingGradient" x1="0" x2="1">
+                <stop offset="0%" stop-color="#72d8ff" />
+                <stop offset="100%" stop-color="#4a7dff" />
+              </linearGradient>
+            </defs>
+            <ellipse cx="132" cy="202" rx="72" ry="12" fill="#273046" opacity=".18" />
+            <path d="M72 104c-31-5-48 12-51 31-4 25 21 48 58 42z" fill="url(#wingGradient)" />
+            <path d="M188 104c31-5 48 12 51 31 4 25-21 48-58 42z" fill="url(#wingGradient)" />
+            <path d="M58 86c16-58 58-80 96-64 39 16 61 70 46 121-12 42-42 62-82 58-45-5-74-55-60-115z" fill="url(#bodyGradient)" />
+            <path d="M93 36c-4-20 10-33 25-25 5 12 1 24-10 36z" fill="#5fd3a5" />
+            <path d="M149 32c8-20 27-23 36-8-2 14-13 23-31 24z" fill="#5fd3a5" />
+            <circle cx="100" cy="103" r="16" fill="#28334d" />
+            <circle cx="155" cy="96" r="16" fill="#28334d" />
+            <circle cx="106" cy="97" r="5" fill="#fff" />
+            <circle cx="161" cy="90" r="5" fill="#fff" />
+            <path d="M120 130c13 12 31 9 40-5" fill="none" stroke="#28334d" stroke-width="8" stroke-linecap="round" />
+            <circle cx="78" cy="128" r="10" fill="#ff7f91" opacity=".75" />
+            <circle cx="178" cy="120" r="10" fill="#ff7f91" opacity=".75" />
+            <path d="M110 174c-1 12-8 21-19 21" fill="none" stroke="#28334d" stroke-width="8" stroke-linecap="round" />
+            <path d="M158 170c4 12 13 19 24 17" fill="none" stroke="#28334d" stroke-width="8" stroke-linecap="round" />
+          </svg>
+        </div>
+
+        <div class="stats-grid" aria-label="分數與等級">
+          <article>
+            <span>分數</span>
+            <strong id="scoreText">0</strong>
+          </article>
+          <article>
+            <span>連擊</span>
+            <strong id="streakText">0</strong>
+          </article>
+          <article>
+            <span>等級</span>
+            <strong id="levelText">1</strong>
+          </article>
+        </div>
+
+        <div class="energy-wrap">
+          <div class="energy-label">
+            <span>升級能量</span>
+            <span id="energyText">0 / 100</span>
+          </div>
+          <div class="energy-bar" aria-hidden="true">
+            <div id="energyFill"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="game-panel" aria-label="單字選擇題">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Practice Words</p>
+            <h2 id="questionWord">tea</h2>
+          </div>
+          <select id="categorySelect" aria-label="選擇已解鎖課別">
+            <option value="all">已解鎖全部</option>
+          </select>
+        </div>
+
+        <div class="mode-tabs" aria-label="選擇練習模式">
+          <button class="mode-tab active" type="button" data-mode="meaning" aria-pressed="true">
+            中文意思
+          </button>
+          <button class="mode-tab" type="button" data-mode="spelling" aria-pressed="false">
+            拼字
+          </button>
+          <button class="mode-tab" type="button" data-mode="phonics" aria-pressed="false">
+            自然發音
+          </button>
+        </div>
+
+        <p class="hint" id="hintText">聽單字，選出正確的中文意思。</p>
+        <div class="choice-grid" id="choiceGrid"></div>
+
+        <section class="spelling-panel" id="spellingPanel" aria-label="拼字練習" hidden>
+          <div class="spell-card">
+            <span class="spell-label">拼出英文</span>
+            <strong id="spellClue">茶 · 3 個字母</strong>
+            <div class="spell-slots" id="spellSlots" aria-hidden="true"></div>
+            <input id="spellInput" type="text" readonly aria-label="目前拼出的單字" />
+          </div>
+          <div class="letter-bank" id="letterBank" aria-label="可選字母"></div>
+          <div class="spell-actions">
+            <button class="secondary-button small-button" id="backspaceButton" type="button">退一格</button>
+            <button class="secondary-button small-button" id="clearSpellButton" type="button">清除</button>
+            <button class="secondary-button small-button primary-check" id="checkSpellButton" type="button">檢查</button>
+          </div>
+        </section>
+
+        <div class="feedback" id="feedback" role="status" aria-live="polite">
+          準備好了嗎？答對就能集點升級。
+        </div>
+
+        <div class="controls">
+          <button class="secondary-button" id="newRoundButton" type="button">下一題</button>
+          <button class="secondary-button" id="resetButton" type="button">重新開始</button>
+        </div>
+
+        <section class="level-road" aria-label="H1-H4 級數進度">
+          <div class="section-title">
+            <h3>H1-H4 級數進度</h3>
+            <span>依考卷課別接續解鎖</span>
+          </div>
+          <div class="level-road-grid" id="levelRoad"></div>
+        </section>
+
+        <section class="collection" aria-label="徽章收藏">
+          <div class="section-title">
+            <h3>徽章收藏</h3>
+            <span id="badgeCount">0 / 5</span>
+          </div>
+          <div class="badge-row" id="badgeRow"></div>
+        </section>
+
+        <section class="collection" aria-label="夥伴收藏">
+          <div class="section-title">
+            <h3>夥伴收藏</h3>
+            <span id="buddyCount">1 / 4</span>
+          </div>
+          <div class="buddy-row" id="buddyRow"></div>
+        </section>
+      </section>
+    </main>
+
+    <template id="choiceTemplate">
+      <button class="choice-card" type="button">
+        <span class="choice-emoji"></span>
+        <span class="choice-text"></span>
+      </button>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
