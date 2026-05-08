@@ -16,6 +16,18 @@ const lessonPlan = [
   { id: "h4-l3", unlockLevel: 15, title: "H4-L3 遊樂場", subtitle: "Playground", icon: "🛝" },
   { id: "h4-l4", unlockLevel: 16, title: "H4-L4 運動", subtitle: "Sports", icon: "🏀" },
   { id: "h4-review", unlockLevel: 17, title: "H4 期末複習", subtitle: "Final Review", icon: "🏆" },
+  { id: "vocab-h1-01", unlockLevel: 18, title: "新版 H1-01", subtitle: "Vocabulary H1-01", icon: "📘" },
+  { id: "vocab-h1-02", unlockLevel: 19, title: "新版 H1-02", subtitle: "Vocabulary H1-02", icon: "📘" },
+  { id: "vocab-h2-01", unlockLevel: 20, title: "新版 H2-01", subtitle: "Vocabulary H2-01", icon: "📗" },
+  { id: "vocab-h2-02", unlockLevel: 21, title: "新版 H2-02", subtitle: "Vocabulary H2-02", icon: "📗" },
+  { id: "vocab-h3-01", unlockLevel: 22, title: "新版 H3-01", subtitle: "Vocabulary H3-01", icon: "📙" },
+  { id: "vocab-h3-02", unlockLevel: 23, title: "新版 H3-02", subtitle: "Vocabulary H3-02", icon: "📙" },
+  { id: "vocab-h4-01", unlockLevel: 24, title: "新版 H4-01", subtitle: "Vocabulary H4-01", icon: "📕" },
+  { id: "vocab-h4-02", unlockLevel: 25, title: "新版 H4-02", subtitle: "Vocabulary H4-02", icon: "📕" },
+  { id: "vocab-h5-01", unlockLevel: 26, title: "新版 H5-01", subtitle: "Vocabulary H5-01", icon: "📒" },
+  { id: "vocab-h5-02", unlockLevel: 27, title: "新版 H5-02", subtitle: "Vocabulary H5-02", icon: "📒" },
+  { id: "vocab-h6-01", unlockLevel: 28, title: "新版 H6-01", subtitle: "Vocabulary H6-01", icon: "📓" },
+  { id: "vocab-h6-02", unlockLevel: 29, title: "新版 H6-02", subtitle: "Vocabulary H6-02", icon: "📓" },
 ];
 
 const lessonWordData = {
@@ -256,6 +268,45 @@ const lessonWordData = {
     ["watch", "手錶", "⌚"],
   ],
 };
+
+Object.assign(lessonWordData, {
+  "vocab-h1-01": [
+    ["one", "一", "🔤"], ["two", "二", "🔤"], ["three", "三", "🔤"], ["four", "四", "🔤"], ["five", "五", "🔤"], ["six", "六", "🔤"], ["seven", "七", "🔤"], ["eight", "八", "🔤"], ["nine", "九", "🔤"], ["ten", "十", "🔤"], ["eleven", "十一", "🔤"], ["twelve", "十二", "🔤"], ["thirteen", "十三", "🔤"], ["fourteen", "十四", "🔤"], ["fifteen", "十五", "🔤"], ["sixteen", "十六", "🔤"], ["seventeen", "十七", "🔤"], ["eighteen", "十八", "🔤"], ["nineteen", "十九", "🔤"], ["apple", "蘋果", "🔤"], ["aunt", "阿姨/姑姑", "🔤"], ["bed", "床", "🔤"], ["brother", "兄弟", "🔤"], ["coat", "外套", "🔤"], ["dad", "爸爸", "🔤"], ["door", "門", "🔤"], ["friend", "朋友", "🔤"], ["goat", "山羊", "🔤"], ["grandma", "奶奶/外婆", "🔤"], ["guava", "芭樂", "🔤"], ["hen", "母雞", "🔤"], ["hippo", "河馬", "🔤"], ["house", "房子", "🔤"], ["jacket", "夾克", "🔤"], ["jam", "果醬", "🔤"], ["jeans", "牛仔褲", "🔤"], ["kiwi", "奇異果", "🔤"], ["lamb", "小羊", "🔤"], ["mango", "芒果", "🔤"], ["pants", "長褲", "🔤"], ["peanut", "花生", "🔤"], ["rabbit", "兔子", "🔤"], ["radio", "收音機", "🔤"], ["sister", "姊妹", "🔤"], ["sweater", "毛衣", "🔤"], ["toast", "吐司", "🔤"], ["shirt", "襯衫", "🔤"], ["uncle", "叔叔/舅舅", "🔤"], ["white", "白色", "🔤"], ["yam", "地瓜", "🔤"],
+  ],
+  "vocab-h1-02": [
+    ["twenty", "二十", "🔤"], ["thirty", "三十", "🔤"], ["forty", "四十", "🔤"], ["fifty", "五十", "🔤"], ["sixty", "六十", "🔤"], ["banana", "香蕉", "🔤"], ["bat", "球棒/蝙蝠", "🔤"], ["black", "黑色", "🔤"], ["blue", "藍色", "🔤"], ["box", "盒子", "🔤"], ["brown", "棕色", "🔤"], ["cat", "貓", "🔤"], ["clock", "時鐘", "🔤"], ["cookie", "餅乾", "🔤"], ["cousin", "堂/表兄弟姊妹", "🔤"], ["desk", "書桌", "🔤"], ["dress", "洋裝", "🔤"], ["egg", "蛋", "🔤"], ["fan", "電扇", "🔤"], ["fish", "魚", "🔤"], ["frog", "青蛙", "🔤"], ["grandpa", "爺爺/外公", "🔤"], ["green", "綠色", "🔤"], ["hat", "帽子", "🔤"], ["hot dog", "熱狗", "🔤"], ["jug", "水壺", "🔤"], ["lemon", "檸檬", "🔤"], ["mom", "媽媽", "🔤"], ["monkey", "猴子", "🔤"], ["nut", "堅果", "🔤"], ["parrot", "鸚鵡", "🔤"], ["pig", "豬", "🔤"], ["pink", "粉紅色", "🔤"], ["purple", "紫色", "🔤"], ["quilt", "棉被", "🔤"], ["red", "紅色", "🔤"], ["roof", "屋頂", "🔤"], ["sack", "袋子", "🔤"], ["scarf", "圍巾", "🔤"], ["shoes", "鞋子", "🔤"], ["shorts", "短褲", "🔤"], ["skirt", "裙子", "🔤"], ["socks", "襪子", "🔤"], ["tea", "茶", "🔤"], ["wall", "牆", "🔤"], ["yard", "院子", "🔤"], ["yellow", "黃色", "🔤"], ["zebra", "斑馬", "🔤"], ["zoo", "動物園", "🔤"],
+  ],
+  "vocab-h2-01": [
+    ["ant", "螞蟻", "🔤"], ["back", "背部", "🔤"], ["big", "大的", "🔤"], ["bird", "鳥", "🔤"], ["boy", "男孩", "🔤"], ["bus", "公車", "🔤"], ["car", "汽車", "🔤"], ["carrot", "胡蘿蔔", "🔤"], ["cave", "洞穴", "🔤"], ["cup", "杯子", "🔤"], ["day", "白天/一天", "🔤"], ["dig", "挖", "🔤"], ["doll", "娃娃", "🔤"], ["fast", "快的", "🔤"], ["fat", "胖的", "🔤"], ["fork", "叉子", "🔤"], ["fox", "狐狸", "🔤"], ["gas", "瓦斯/汽油", "🔤"], ["girl", "女孩", "🔤"], ["good", "好的", "🔤"], ["ham", "火腿", "🔤"], ["hand", "手", "🔤"], ["ill", "生病的", "🔤"], ["kid", "小孩", "🔤"], ["little", "小的", "🔤"], ["long", "長的", "🔤"], ["map", "地圖", "🔤"], ["May", "五月", "🔤"], ["mop", "拖把", "🔤"], ["name", "名字", "🔤"], ["ox", "公牛", "🔤"], ["pan", "平底鍋", "🔤"], ["pay", "付錢", "🔤"], ["queen", "皇后", "🔤"], ["quick", "快速的", "🔤"], ["rain", "雨", "🔤"], ["rug", "地毯", "🔤"], ["sink", "水槽", "🔤"], ["sun", "太陽", "🔤"], ["tool", "工具", "🔤"], ["van", "廂型車", "🔤"], ["vase", "花瓶", "🔤"], ["vest", "背心", "🔤"], ["walk", "走路", "🔤"], ["zero", "零", "🔤"],
+  ],
+  "vocab-h2-02": [
+    ["ape", "猿", "🔤"], ["bag", "袋子", "🔤"], ["bay", "海灣", "🔤"], ["belt", "皮帶", "🔤"], ["cake", "蛋糕", "🔤"], ["cap", "鴨舌帽", "🔤"], ["cop", "警察", "🔤"], ["dot", "點", "🔤"], ["duck", "鴨子", "🔤"], ["fly", "飛/蒼蠅", "🔤"], ["food", "食物", "🔤"], ["game", "遊戲", "🔤"], ["gap", "缺口", "🔤"], ["gun", "槍", "🔤"], ["hair", "頭髮", "🔤"], ["hug", "擁抱", "🔤"], ["jet", "噴射機", "🔤"], ["jog", "慢跑", "🔤"], ["jump", "跳", "🔤"], ["key", "鑰匙", "🔤"], ["kick", "踢", "🔤"], ["king", "國王", "🔤"], ["kite", "風箏", "🔤"], ["lake", "湖", "🔤"], ["lamp", "檯燈", "🔤"], ["leaf", "葉子", "🔤"], ["lick", "舔", "🔤"], ["lie", "躺/說謊", "🔤"], ["love", "愛", "🔤"], ["mail", "信件", "🔤"], ["mat", "墊子", "🔤"], ["mug", "馬克杯", "🔤"], ["nail", "釘子/指甲", "🔤"], ["net", "網子", "🔤"], ["pen", "筆", "🔤"], ["pet", "寵物", "🔤"], ["rope", "繩子", "🔤"], ["sad", "難過的", "🔤"], ["say", "說", "🔤"], ["short", "短的", "🔤"], ["table", "桌子", "🔤"], ["taxi", "計程車", "🔤"], ["tent", "帳篷", "🔤"], ["top", "頂端", "🔤"], ["tub", "浴缸", "🔤"], ["wet", "濕的", "🔤"], ["worm", "蟲", "🔤"], ["yolk", "蛋黃", "🔤"],
+  ],
+  "vocab-h3-01": [
+    ["bacon", "培根", "🔤"], ["bean", "豆子", "🔤"], ["beef", "牛肉", "🔤"], ["blow", "吹", "🔤"], ["boat", "船", "🔤"], ["bone", "骨頭", "🔤"], ["butter", "奶油", "🔤"], ["chew", "咀嚼", "🔤"], ["crow", "烏鴉", "🔤"], ["cry", "哭", "🔤"], ["cute", "可愛的", "🔤"], ["die", "死亡", "🔤"], ["elbow", "手肘", "🔤"], ["eve", "前夕", "🔤"], ["fight", "打架", "🔤"], ["fire", "火", "🔤"], ["flight", "飛行", "🔤"], ["fruit", "水果", "🔤"], ["funny", "有趣的", "🔤"], ["hike", "健行", "🔤"], ["hole", "洞", "🔤"], ["hose", "水管", "🔤"], ["huge", "巨大的", "🔤"], ["jeep", "吉普車", "🔤"], ["June", "六月", "🔤"], ["line", "線", "🔤"], ["loaf", "一條麵包", "🔤"], ["low", "低的", "🔤"], ["meat", "肉", "🔤"], ["noon", "中午", "🔤"], ["peach", "桃子", "🔤"], ["pine", "松樹", "🔤"], ["pool", "水池", "🔤"], ["pope", "教宗", "🔤"], ["rice", "米飯", "🔤"], ["right", "右邊/正確", "🔤"], ["room", "房間", "🔤"], ["rose", "玫瑰", "🔤"], ["soap", "肥皂", "🔤"], ["steak", "牛排", "🔤"], ["time", "時間", "🔤"], ["wife", "妻子", "🔤"],
+  ],
+  "vocab-h3-02": [
+    ["beak", "鳥喙", "🔤"], ["bike", "腳踏車", "🔤"], ["boots", "靴子", "🔤"], ["bowl", "碗", "🔤"], ["bread", "麵包", "🔤"], ["candy", "糖果", "🔤"], ["chicken", "雞肉/雞", "🔤"], ["clue", "線索", "🔤"], ["deep", "深的", "🔤"], ["dive", "潛水", "🔤"], ["eel", "鰻魚", "🔤"], ["flute", "長笛", "🔤"], ["glue", "膠水", "🔤"], ["goose", "鵝", "🔤"], ["group", "群組", "🔤"], ["happy", "快樂的", "🔤"], ["heel", "腳跟", "🔤"], ["honey", "蜂蜜", "🔤"], ["light", "光/燈", "🔤"], ["money", "錢", "🔤"], ["new", "新的", "🔤"], ["noodles", "麵", "🔤"], ["nose", "鼻子", "🔤"], ["oak", "橡樹", "🔤"], ["pea", "豌豆", "🔤"], ["pineapple", "鳳梨", "🔤"], ["pipe", "管子", "🔤"], ["read", "閱讀", "🔤"], ["ride", "騎", "🔤"], ["road", "道路", "🔤"], ["snow", "雪", "🔤"], ["soul", "靈魂", "🔤"], ["spy", "間諜", "🔤"], ["stew", "燉菜", "🔤"], ["these", "這些", "🔤"], ["tie", "領帶", "🔤"], ["toe", "腳趾", "🔤"], ["tube", "管子", "🔤"], ["ugly", "醜的", "🔤"], ["weed", "雜草", "🔤"], ["wound", "傷口", "🔤"],
+  ],
+  "vocab-h4-01": [
+    ["bath", "洗澡", "🔤"], ["bleed", "流血", "🔤"], ["brush", "刷子/刷", "🔤"], ["catch", "接住", "🔤"], ["chick", "小雞", "🔤"], ["church", "教堂", "🔤"], ["clap", "拍手", "🔤"], ["claw", "爪子", "🔤"], ["clean", "乾淨的/清潔", "🔤"], ["clown", "小丑", "🔤"], ["couch", "沙發", "🔤"], ["cow", "母牛", "🔤"], ["crawl", "爬行", "🔤"], ["drain", "排水管", "🔤"], ["faucet", "水龍頭", "🔤"], ["flame", "火焰", "🔤"], ["flask", "水瓶", "🔤"], ["football", "美式足球", "🔤"], ["Frisbee", "飛盤", "🔤"], ["front", "前面", "🔤"], ["glasses", "眼鏡", "🔤"], ["hawk", "老鷹", "🔤"], ["lawn", "草坪", "🔤"], ["match", "火柴/比賽", "🔤"], ["plane", "飛機", "🔤"], ["play", "玩", "🔤"], ["plum", "李子", "🔤"], ["prawn", "蝦子", "🔤"], ["pray", "祈禱", "🔤"], ["rock", "石頭", "🔤"], ["shape", "形狀", "🔤"], ["sheet", "床單", "🔤"], ["shell", "貝殼", "🔤"], ["ship", "船", "🔤"], ["shout", "大叫", "🔤"], ["sick", "生病的", "🔤"], ["slope", "斜坡", "🔤"], ["teeth", "牙齒", "🔤"], ["thick", "厚的", "🔤"], ["thigh", "大腿", "🔤"], ["train", "火車", "🔤"], ["trap", "陷阱", "🔤"], ["truck", "卡車", "🔤"], ["witch", "女巫", "🔤"], ["yawn", "打哈欠", "🔤"],
+  ],
+  "vocab-h4-02": [
+    ["blind", "盲的/百葉窗", "🔤"], ["block", "積木/街區", "🔤"], ["brain", "腦", "🔤"], ["branch", "樹枝", "🔤"], ["brick", "磚塊", "🔤"], ["cheek", "臉頰", "🔤"], ["clam", "蛤蜊", "🔤"], ["close", "關上/近的", "🔤"], ["cloud", "雲", "🔤"], ["count", "數數", "🔤"], ["crab", "螃蟹", "🔤"], ["crayon", "蠟筆", "🔤"], ["dragon", "龍", "🔤"], ["draw", "畫", "🔤"], ["dream", "夢", "🔤"], ["drive", "開車", "🔤"], ["flag", "旗子", "🔤"], ["flea", "跳蚤", "🔤"], ["float", "漂浮", "🔤"], ["frost", "霜", "🔤"], ["glad", "高興的", "🔤"], ["glide", "滑行", "🔤"], ["grain", "穀物", "🔤"], ["grip", "握住", "🔤"], ["muffin", "馬芬", "🔤"], ["owl", "貓頭鷹", "🔤"], ["plant", "植物", "🔤"], ["plastic", "塑膠", "🔤"], ["plate", "盤子", "🔤"], ["pretty", "漂亮的", "🔤"], ["sauce", "醬汁", "🔤"], ["saw", "鋸子/看見", "🔤"], ["sleep", "睡覺", "🔤"], ["snacks", "點心", "🔤"], ["thin", "瘦的/薄的", "🔤"], ["tree", "樹", "🔤"], ["whale", "鯨魚", "🔤"], ["wheat", "小麥", "🔤"], ["wheel", "輪子", "🔤"], ["yogurt", "優格", "🔤"],
+  ],
+  "vocab-h5-01": [
+    ["armchair", "扶手椅", "🔤"], ["beaver", "海狸", "🔤"], ["blanket", "毯子", "🔤"], ["boil", "煮沸", "🔤"], ["break", "打破/休息", "🔤"], ["burger", "漢堡", "🔤"], ["carpet", "地毯", "🔤"], ["closet", "衣櫥", "🔤"], ["corn", "玉米", "🔤"], ["cowboy", "牛仔", "🔤"], ["cupboard", "櫥櫃", "🔤"], ["dresser", "梳妝台", "🔤"], ["elephant", "大象", "🔤"], ["farm", "農場", "🔤"], ["feather", "羽毛", "🔤"], ["graph", "圖表", "🔤"], ["knife", "刀子", "🔤"], ["knight", "騎士", "🔤"], ["knob", "門把", "🔤"], ["knock", "敲", "🔤"], ["oyster", "牡蠣", "🔤"], ["phone", "電話", "🔤"], ["photo", "照片", "🔤"], ["pillow", "枕頭", "🔤"], ["purse", "錢包", "🔤"], ["river", "河流", "🔤"], ["skate", "溜冰", "🔤"], ["skin", "皮膚", "🔤"], ["smell", "聞/氣味", "🔤"], ["smile", "微笑", "🔤"], ["smoke", "煙", "🔤"], ["sneeze", "打噴嚏", "🔤"], ["snowy", "下雪的", "🔤"], ["sofa", "沙發", "🔤"], ["soil", "土壤", "🔤"], ["soymilk", "豆漿", "🔤"], ["speak", "說話", "🔤"], ["stamp", "郵票", "🔤"], ["stove", "爐子", "🔤"], ["surf", "衝浪", "🔤"], ["switch", "開關", "🔤"], ["towel", "毛巾", "🔤"], ["warm", "溫暖的", "🔤"], ["weak", "虛弱的", "🔤"], ["weather", "天氣", "🔤"], ["winter", "冬天", "🔤"], ["wrap", "包裹", "🔤"],
+  ],
+  "vocab-h5-02": [
+    ["arch", "拱門", "🔤"], ["bathtub", "浴缸", "🔤"], ["cabinet", "櫃子", "🔤"], ["cloudy", "多雲的", "🔤"], ["coin", "硬幣", "🔤"], ["cold", "冷的", "🔤"], ["color", "顏色", "🔤"], ["cool", "涼的/酷的", "🔤"], ["deaf", "聾的", "🔤"], ["dinner", "晚餐", "🔤"], ["dirty", "髒的", "🔤"], ["doctor", "醫生", "🔤"], ["dolphin", "海豚", "🔤"], ["fall", "秋天/落下", "🔤"], ["first", "第一", "🔤"], ["foil", "鋁箔", "🔤"], ["great", "很棒的", "🔤"], ["heat", "熱", "🔤"], ["kettle", "水壺", "🔤"], ["know", "知道", "🔤"], ["mirror", "鏡子", "🔤"], ["moist", "潮濕的", "🔤"], ["oven", "烤箱", "🔤"], ["rainy", "下雨的", "🔤"], ["royal", "皇家的", "🔤"], ["school", "學校", "🔤"], ["scooter", "滑板車", "🔤"], ["seal", "海豹", "🔤"], ["shampoo", "洗髮精", "🔤"], ["sketch", "素描", "🔤"], ["smart", "聰明的", "🔤"], ["smash", "打碎", "🔤"], ["snail", "蝸牛", "🔤"], ["snowman", "雪人", "🔤"], ["sparrow", "麻雀", "🔤"], ["spoon", "湯匙", "🔤"], ["spring", "春天", "🔤"], ["stand", "站立", "🔤"], ["stick", "棍子", "🔤"], ["stir", "攪拌", "🔤"], ["summer", "夏天", "🔤"], ["sunny", "晴朗的", "🔤"], ["sweat", "汗水", "🔤"], ["sweep", "掃", "🔤"], ["toilet", "馬桶", "🔤"], ["windy", "有風的", "🔤"], ["wreath", "花圈", "🔤"], ["write", "寫", "🔤"], ["wrong", "錯的", "🔤"],
+  ],
+  "vocab-h6-01": [
+    ["ace", "高手/A牌", "🔤"], ["angel", "天使", "🔤"], ["angle", "角度", "🔤"], ["bald", "禿頭的", "🔤"], ["bare", "裸露的", "🔤"], ["beard", "鬍子", "🔤"], ["beetle", "甲蟲", "🔤"], ["behind", "在後面", "🔤"], ["bubble", "泡泡", "🔤"], ["buckle", "扣環", "🔤"], ["call", "打電話/叫", "🔤"], ["choice", "選擇", "🔤"], ["core", "核心", "🔤"], ["eagle", "老鷹", "🔤"], ["earring", "耳環", "🔤"], ["earth", "地球/土地", "🔤"], ["fair", "公平的/市集", "🔤"], ["floor", "地板", "🔤"], ["fold", "摺", "🔤"], ["gate", "大門", "🔤"], ["ginger", "薑", "🔤"], ["grind", "磨碎", "🔤"], ["handle", "把手", "🔤"], ["jungle", "叢林", "🔤"], ["kind", "善良的/種類", "🔤"], ["mall", "購物中心", "🔤"], ["morning", "早晨", "🔤"], ["near", "附近", "🔤"], ["park", "公園", "🔤"], ["people", "人們", "🔤"], ["pimple", "青春痘", "🔤"], ["scratch", "抓/刮痕", "🔤"], ["scream", "尖叫", "🔤"], ["screen", "螢幕", "🔤"], ["shrink", "縮小", "🔤"], ["shrug", "聳肩", "🔤"], ["slice", "薄片", "🔤"], ["sprain", "扭傷", "🔤"], ["squat", "蹲", "🔤"], ["squeeze", "擠壓", "🔤"], ["stream", "小溪/串流", "🔤"], ["stretch", "伸展", "🔤"], ["twist", "扭轉", "🔤"], ["vet", "獸醫", "🔤"], ["wear", "穿戴", "🔤"], ["wood", "木頭", "🔤"], ["wool", "羊毛", "🔤"], ["writer", "作家", "🔤"], ["year", "年", "🔤"],
+  ],
+  "vocab-h6-02": [
+    ["balloon", "氣球", "🔤"], ["bear", "熊", "🔤"], ["bell", "鈴鐺", "🔤"], ["bicycle", "腳踏車", "🔤"], ["bottle", "瓶子", "🔤"], ["cable", "電纜", "🔤"], ["cage", "籠子", "🔤"], ["candle", "蠟燭", "🔤"], ["chair", "椅子", "🔤"], ["chubby", "圓胖的", "🔤"], ["circle", "圓圈", "🔤"], ["circus", "馬戲團", "🔤"], ["cook", "烹調", "🔤"], ["cradle", "搖籃", "🔤"], ["dimple", "酒窩", "🔤"], ["dribble", "運球/滴下", "🔤"], ["find", "找到", "🔤"], ["freckle", "雀斑", "🔤"], ["gem", "寶石", "🔤"], ["gold", "金色/黃金", "🔤"], ["gym", "健身房", "🔤"], ["hare", "野兔", "🔤"], ["hear", "聽見", "🔤"], ["hook", "鉤子", "🔤"], ["idle", "閒置的", "🔤"], ["learn", "學習", "🔤"], ["maple", "楓樹", "🔤"], ["marble", "彈珠/大理石", "🔤"], ["pearl", "珍珠", "🔤"], ["rubber", "橡膠", "🔤"], ["salt", "鹽", "🔤"], ["scold", "責罵", "🔤"], ["shore", "岸邊", "🔤"], ["shrimp", "蝦子", "🔤"], ["sing", "唱歌", "🔤"], ["spray", "噴灑", "🔤"], ["sprout", "嫩芽", "🔤"], ["stair", "樓梯", "🔤"], ["staple", "釘書針", "🔤"], ["street", "街道", "🔤"], ["string", "線/繩", "🔤"], ["strong", "強壯的", "🔤"], ["tear", "眼淚/撕", "🔤"], ["tickle", "搔癢", "🔤"], ["turtle", "烏龜", "🔤"], ["twinkle", "閃爍", "🔤"], ["want", "想要", "🔤"], ["where", "哪裡", "🔤"], ["wrinkle", "皺紋", "🔤"],
+  ],
+});
 
 const legacyCategoryMap = {
   "lesson-1": "h4-l1",
@@ -514,17 +565,26 @@ function findPhonicsRules(word) {
   return phonicsRules.filter((rule) => rule.test(clean, tokens));
 }
 
-const words = Object.entries(lessonWordData).flatMap(([category, entries]) => {
+const words = [];
+const seenWordKeys = new Set();
+
+Object.entries(lessonWordData).forEach(([category, entries]) => {
   const lesson = lessonPlan.find((item) => item.id === category);
-  return entries.map(([word, zh, emoji]) => ({
-    id: `${category}-${slugWord(word)}`,
-    word,
-    zh,
-    emoji,
-    category,
-    level: lesson.unlockLevel,
-    phonicsRuleIds: findPhonicsRules(word).map((rule) => rule.id),
-  }));
+
+  entries.forEach(([word, zh, emoji]) => {
+    const wordKey = normalizeSpelling(word);
+    if (seenWordKeys.has(wordKey)) return;
+    seenWordKeys.add(wordKey);
+    words.push({
+      id: `${category}-${slugWord(word)}`,
+      word,
+      zh,
+      emoji,
+      category,
+      level: lesson.unlockLevel,
+      phonicsRuleIds: findPhonicsRules(word).map((rule) => rule.id),
+    });
+  });
 });
 
 const badges = [

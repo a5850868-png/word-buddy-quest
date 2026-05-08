@@ -1,6 +1,6 @@
-# H1-H4 Word Buddy Quest 單字級數進度
+# H1-H6 Word Buddy Quest 單字級數進度
 
-這份進度依照 H1 到 H4 考卷中可辨識的課別安排。遊戲會從 H1-L1 開始，答題集點升級後依序解鎖下一課；同一台裝置的瀏覽器會記住上次練到的單字，下次打開可以接續玩。
+這份進度依照 H1 到 H6 考卷與新版單字表中可辨識的課別安排。遊戲會從 H1-L1 開始，答題集點升級後依序解鎖下一課；同一台裝置的瀏覽器會記住上次練到的單字，下次打開可以接續玩。
 
 | 遊戲等級 | 考卷課別 | 主題 | 單字 |
 | --- | --- | --- | --- |
@@ -21,6 +21,7 @@
 | Lv.15 | H4-L3 | Playground 遊樂場 | playground, slide, swing, seesaw, sandbox, merry-go-round, jump rope, run, classroom, bedroom |
 | Lv.16 | H4-L4 | Sports 運動 | basketball, baseball, tennis, badminton, bowling, golf, soccer, ping-pong, volleyball |
 | Lv.17 | H4 Final Review | 期末複習 | brother, sister, grandfather, friend, three, white, green, cherry, cheese, French fries, drum, trumpet, cream, watch |
+| Lv.18-29 | 新版 H1-01 到 H6-02 | 新版單字表補充 | 已排除既有題庫中重複出現的英文單字後加入遊戲 |
 
 ## 遊戲模式
 
@@ -50,7 +51,7 @@
 
 ## 自然發音規則
 
-自然發音模式會從 H1-H4 單字中挑出有明顯字母組合的字，讓孩子練習「看到組合就想到聲音」。
+自然發音模式會從 H1-H6 單字中挑出有明顯字母組合的字，讓孩子練習「看到組合就想到聲音」。
 
 | 類型 | 規則例子 |
 | --- | --- |
