@@ -621,33 +621,33 @@ const badges = [
 const petStages = [
   {
     level: 1,
-    icon: "🔮",
-    name: "Mindlet",
-    colors: ["#f5f1ff", "#d9b8ff", "#b893ff", "#7d65d8", "#9b63ff"],
+    icon: "⚡",
+    name: "Volt Rookie",
+    colors: ["#202a4d", "#4b5bff", "#78eeff", "#1d7cff", "#ffd141"],
   },
   {
     level: 5,
-    icon: "💫",
-    name: "Psyloo",
-    colors: ["#ffffff", "#c9ddff", "#d8b6ff", "#7f8cff", "#72d8ff"],
+    icon: "🔥",
+    name: "Blaze Runner",
+    colors: ["#31152d", "#ff4f7b", "#ffd141", "#ff7a1a", "#ffe66d"],
   },
   {
     level: 9,
-    icon: "💎",
-    name: "Aurakid",
-    colors: ["#eef7ff", "#b7a4ff", "#a7fff3", "#4a7dff", "#ff91c8"],
+    icon: "💠",
+    name: "Aero Striker",
+    colors: ["#081c30", "#00a8ff", "#78eeff", "#315cff", "#ffffff"],
   },
   {
     level: 13,
-    icon: "⭐",
-    name: "Nebulot",
-    colors: ["#f7e6ff", "#b45cff", "#ffd36a", "#7d65d8", "#72d8ff"],
+    icon: "☄️",
+    name: "Nova Breaker",
+    colors: ["#1f103d", "#7d35ff", "#ff477e", "#ffb000", "#ffd141"],
   },
   {
     level: 17,
     icon: "👑",
-    name: "Word Sage",
-    colors: ["#ffffff", "#a98cff", "#ffd36a", "#ff8fb3", "#7d65d8"],
+    name: "Legend Core",
+    colors: ["#050816", "#121a34", "#ffd141", "#78eeff", "#ff477e"],
   },
 ];
 

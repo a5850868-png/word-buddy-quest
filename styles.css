@@ -109,7 +109,7 @@ input {
 
 .hero-panel,
 .game-panel {
-  border: 2px solid rgba(255, 255, 255, 0.85);
+  border: 2px solid rgba(255, 255, 255, 0.68);
   background: rgba(255, 255, 255, 0.78);
   box-shadow: var(--shadow);
   backdrop-filter: blur(14px);
@@ -121,6 +121,10 @@ input {
   padding: 24px;
   display: flex;
   flex-direction: column;
+  color: #f7fbff;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.05)),
+    linear-gradient(160deg, #121a34 0%, #1b2550 52%, #4b1e67 100%);
 }
 
 .game-panel {
@@ -213,28 +217,31 @@ h3 {
   border-radius: 24px;
   overflow: hidden;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0)),
-    linear-gradient(160deg, #90e0d2 0%, #7fb6ff 58%, #8273dd 100%);
+    radial-gradient(circle at 50% 34%, rgba(255, 221, 80, 0.33), transparent 8rem),
+    radial-gradient(circle at 18% 24%, rgba(72, 216, 255, 0.34), transparent 7rem),
+    radial-gradient(circle at 86% 64%, rgba(255, 65, 126, 0.25), transparent 8rem),
+    linear-gradient(160deg, #060b1d 0%, #142453 54%, #421e72 100%);
 }
 
 .creature-stage::before {
   content: "";
   position: absolute;
   inset: auto -8% 0;
-  height: 34%;
+  height: 30%;
   background:
-    radial-gradient(ellipse at center, rgba(255, 255, 255, 0.35) 0 26%, transparent 27%),
-    linear-gradient(180deg, #65ca76, #3a9b5f);
-  border-radius: 50% 50% 0 0;
+    linear-gradient(90deg, transparent 0 10%, rgba(120, 238, 255, 0.34) 11% 13%, transparent 14% 27%, rgba(255, 209, 65, 0.4) 28% 31%, transparent 32% 100%),
+    linear-gradient(180deg, rgba(10, 19, 45, 0.1), #071126);
+  clip-path: polygon(0 58%, 15% 44%, 28% 62%, 42% 36%, 55% 58%, 71% 32%, 86% 54%, 100% 38%, 100% 100%, 0 100%);
 }
 
 .spark {
   position: absolute;
-  width: 56px;
-  height: 56px;
-  border-radius: 18px 18px 18px 6px;
-  background: rgba(255, 255, 255, 0.34);
-  transform: rotate(18deg);
+  width: 68px;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(120, 238, 255, 0.45);
+  box-shadow: 0 0 22px rgba(120, 238, 255, 0.65);
+  transform: rotate(-24deg);
 }
 
 .spark-a {
@@ -245,8 +252,10 @@ h3 {
 .spark-b {
   top: 92px;
   right: 46px;
-  width: 34px;
-  height: 34px;
+  width: 48px;
+  height: 10px;
+  background: rgba(255, 209, 65, 0.55);
+  box-shadow: 0 0 22px rgba(255, 209, 65, 0.68);
 }
 
 .buddy {
@@ -270,12 +279,12 @@ h3 {
   min-height: 74px;
   margin: -4px 0 16px;
   padding: 12px 14px;
-  border: 2px solid rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(120, 238, 255, 0.32);
   border-radius: 18px;
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(8, 16, 38, 0.5);
 }
 
 .pet-status span {
@@ -284,7 +293,7 @@ h3 {
   border-radius: 16px;
   display: grid;
   place-items: center;
-  background: var(--paper);
+  background: rgba(255, 209, 65, 0.18);
   font-size: 2rem;
 }
 
@@ -295,7 +304,7 @@ h3 {
 
 .pet-status small {
   margin-top: 2px;
-  color: var(--muted);
+  color: #cfe8ff;
   font-weight: 900;
 }
 
