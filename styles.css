@@ -399,6 +399,18 @@ select {
   font-size: 1.05rem;
 }
 
+.question-word-en,
+.question-word-zh {
+  display: block;
+}
+
+.question-word-zh {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 850;
+}
+
 .mode-tabs {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

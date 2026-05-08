@@ -344,9 +344,9 @@ function getGroupedCategory(category) {
 const phonicsRules = [
   {
     id: "ch",
-    label: "ch",
+    label: "ch / tch",
     sound: "/ch/",
-    emoji: "ch",
+    emoji: "tch",
     tip: "像 chair、cherry、cheese 的開頭聲。",
     test: (clean) => clean.includes("ch") && !clean.includes("sch"),
   },
@@ -368,11 +368,12 @@ const phonicsRules = [
   },
   {
     id: "sch",
-    label: "sch",
-    sound: "/sk/",
-    emoji: "sk",
+    label: "sc / sch",
+    sound: "/sg/",
+    emoji: "sg",
     tip: "school 裡的 sch 發 /sk/。",
-    test: (clean) => clean.includes("sch"),
+    tip: "sc or sch before a vowel sounds close to sg, like school, scold, scarf.",
+    test: (_, tokens) => tokens.some((token) => /^(sch|sc[aou])/.test(token)),
   },
   {
     id: "ck",
@@ -404,7 +405,7 @@ const phonicsRules = [
     sound: "e sound",
     emoji: "ea",
     tip: "ea 可能發 /ē/ 或 /e/，像 teacher、breakfast。",
-    test: (clean) => clean.includes("ea"),
+    test: (_, tokens) => tokens.some((token) => token.includes("ea") && token !== "learn"),
   },
   {
     id: "ai",
@@ -444,7 +445,7 @@ const phonicsRules = [
     sound: "/ou/",
     emoji: "ou",
     tip: "ou 常有張口滑音，像 mouth。",
-    test: (clean) => clean.includes("ou"),
+    test: (_, tokens) => tokens.some((token) => token.includes("ou") && token !== "cousin"),
   },
   {
     id: "oo",
@@ -476,7 +477,7 @@ const phonicsRules = [
     sound: "r-controlled a",
     emoji: "ar",
     tip: "母音被 r 影響，像 marker、arm。",
-    test: (clean) => clean.includes("ar"),
+    test: (_, tokens) => tokens.some((token) => token.includes("ar") && !["carrot", "learn"].includes(token)),
   },
   {
     id: "er",
@@ -484,7 +485,7 @@ const phonicsRules = [
     sound: "r-controlled e",
     emoji: "er",
     tip: "er 常在字尾，像 teacher、father、mother。",
-    test: (clean) => clean.includes("er"),
+    test: (_, tokens) => tokens.some((token) => token.includes("er") && token !== "strawberry"),
   },
   {
     id: "ir-ur",
@@ -503,12 +504,52 @@ const phonicsRules = [
     test: (clean) => clean.includes("or"),
   },
   {
+    id: "a-e",
+    label: "a_e",
+    sound: "long a",
+    emoji: "a_e",
+    tip: "a + consonant + e makes long a, like cake, face, game.",
+    test: (_, tokens) => tokens.some((token) => /a[bcdfghjklmnpqrstvwxyz]e$/.test(token)),
+  },
+  {
+    id: "e-e",
+    label: "e_e",
+    sound: "long e",
+    emoji: "e_e",
+    tip: "e + consonant + e makes long e, like Pete, these.",
+    test: (_, tokens) => tokens.some((token) => /e[bcdfghjklmnpqrstvwxyz]e$/.test(token)),
+  },
+  {
+    id: "i-e",
+    label: "i_e",
+    sound: "long i",
+    emoji: "i_e",
+    tip: "i + consonant + e makes long i, like bike, five, line.",
+    test: (_, tokens) => tokens.some((token) => /i[bcdfghjklmnpqrstvwxyz]e$/.test(token)),
+  },
+  {
+    id: "o-e",
+    label: "o_e",
+    sound: "long o",
+    emoji: "o_e",
+    tip: "o + consonant + e makes long o, like home, nose, rose.",
+    test: (_, tokens) => tokens.some((token) => /o[bcdfghjklmnpqrstvwxyz]e$/.test(token)),
+  },
+  {
+    id: "u-e",
+    label: "u_e",
+    sound: "long u",
+    emoji: "u_e",
+    tip: "u + consonant + e makes long u, like cute, cube, June.",
+    test: (_, tokens) => tokens.some((token) => /u[bcdfghjklmnpqrstvwxyz]e$/.test(token)),
+  },
+  {
     id: "magic-e",
     label: "magic e",
     sound: "long vowel",
     emoji: "a_e",
     tip: "字尾 e 不發音，前面的母音變長，像 face、five、nine、home。",
-    test: (_, tokens) => tokens.some((token) => /[aeiou][bcdfghjklmnpqrstvwxyz]e$/.test(token)),
+    test: () => false,
   },
   {
     id: "soft-c",
@@ -524,7 +565,63 @@ const phonicsRules = [
     sound: "/j/",
     emoji: "ge",
     tip: "g 遇到 e、i、y 有時發 /j/，像 orange。",
-    test: (clean) => /g[eiy]/.test(clean),
+    test: (_, tokens) => tokens.some((token) => /g[eiy]/.test(token) && !["get", "give", "girl"].includes(token)),
+  },
+  {
+    id: "sk",
+    label: "sk",
+    sound: "/sg/",
+    emoji: "sg",
+    tip: "sk before a vowel sounds close to sg, like skate, ski, sky.",
+    test: (_, tokens) => tokens.some((token) => /^sk[aeiou]/.test(token)),
+  },
+  {
+    id: "sl",
+    label: "sl",
+    sound: "/sl/",
+    emoji: "sl",
+    tip: "s + l blends together, like slide, sleep, slow.",
+    test: (_, tokens) => tokens.some((token) => token.startsWith("sl")),
+  },
+  {
+    id: "st",
+    label: "st",
+    sound: "/sd/",
+    emoji: "sd",
+    tip: "st before a vowel sounds close to sd, like star, stamp, stove.",
+    test: (_, tokens) => tokens.some((token) => /^st[aeiou]/.test(token)),
+  },
+  {
+    id: "sw",
+    label: "sw",
+    sound: "/sw/",
+    emoji: "sw",
+    tip: "s + w blends together, like swim, swing, switch.",
+    test: (_, tokens) => tokens.some((token) => token.startsWith("sw")),
+  },
+  {
+    id: "sm",
+    label: "sm",
+    sound: "/sm/",
+    emoji: "sm",
+    tip: "s + m blends together, like smile, smell, smoke.",
+    test: (_, tokens) => tokens.some((token) => token.startsWith("sm")),
+  },
+  {
+    id: "sn",
+    label: "sn",
+    sound: "/sn/",
+    emoji: "sn",
+    tip: "s + n blends together, like snow, sneeze, snack.",
+    test: (_, tokens) => tokens.some((token) => token.startsWith("sn")),
+  },
+  {
+    id: "sp",
+    label: "sp",
+    sound: "/sb/",
+    emoji: "sb",
+    tip: "sp before a vowel sounds close to sb, like speak, spoon, sport.",
+    test: (_, tokens) => tokens.some((token) => /^sp[aeiou]/.test(token)),
   },
   {
     id: "s-blend",
@@ -532,7 +629,7 @@ const phonicsRules = [
     sound: "sk / sl / st / sw",
     emoji: "sk",
     tip: "s 和另一個子音連在一起滑出來，像 skirt、slide、swing。",
-    test: (clean) => /(sk|sl|st|sw|sm|sn|sp)/.test(clean),
+    test: () => false,
   },
   {
     id: "l-blend",
@@ -540,7 +637,63 @@ const phonicsRules = [
     sound: "bl / cl / fl / pl",
     emoji: "cl",
     tip: "子音加 l 要連著發，像 classroom、playground、blue。",
-    test: (clean) => /(bl|cl|fl|pl)/.test(clean),
+    test: (_, tokens) => tokens.some((token) => /^(bl|cl|fl|pl)/.test(token)),
+  },
+  {
+    id: "br",
+    label: "br",
+    sound: "/br/",
+    emoji: "br",
+    tip: "b + r blends together, like brother, brown, bread.",
+    test: (_, tokens) => tokens.some((token) => token.startsWith("br")),
+  },
+  {
+    id: "cr",
+    label: "cr",
+    sound: "/cr/",
+    emoji: "cr",
+    tip: "c + r blends together, like cry, crab, crown.",
+    test: (_, tokens) => tokens.some((token) => token.startsWith("cr")),
+  },
+  {
+    id: "dr",
+    label: "dr",
+    sound: "/dr/",
+    emoji: "dr",
+    tip: "d + r blends together, like drink, drum, dress.",
+    test: (_, tokens) => tokens.some((token) => token.startsWith("dr")),
+  },
+  {
+    id: "fr",
+    label: "fr",
+    sound: "/fr/",
+    emoji: "fr",
+    tip: "f + r blends together, like frog, fruit, friend.",
+    test: (_, tokens) => tokens.some((token) => token.startsWith("fr")),
+  },
+  {
+    id: "gr",
+    label: "gr",
+    sound: "/gr/",
+    emoji: "gr",
+    tip: "g + r blends together, like green, grape, graph.",
+    test: (_, tokens) => tokens.some((token) => token.startsWith("gr")),
+  },
+  {
+    id: "pr",
+    label: "pr",
+    sound: "/pr/",
+    emoji: "pr",
+    tip: "p + r blends together, like prince, prize, proud.",
+    test: (_, tokens) => tokens.some((token) => token.startsWith("pr")),
+  },
+  {
+    id: "tr",
+    label: "tr",
+    sound: "/tr/",
+    emoji: "tr",
+    tip: "t + r blends together, like tree, train, trumpet.",
+    test: (_, tokens) => tokens.some((token) => token.startsWith("tr")),
   },
   {
     id: "r-blend",
@@ -548,7 +701,7 @@ const phonicsRules = [
     sound: "br / dr / fr / gr / tr",
     emoji: "tr",
     tip: "子音加 r 要連著發，像 brother、drink、green、trumpet。",
-    test: (clean) => /(br|cr|dr|fr|gr|tr|pr)/.test(clean),
+    test: () => false,
   },
   {
     id: "final-y",
@@ -575,6 +728,61 @@ const phonicsRules = [
     test: (clean) => clean.includes("igh") || clean.includes("eigh"),
   },
 ];
+
+const phonicsSpeechCues = {
+  ch: "ch or tch, chair, witch",
+  sh: "sh, ship",
+  th: "th, three",
+  sch: "sc or sch says sg, school, scold",
+  ck: "k, duck",
+  ng: "ng, sing",
+  ee: "ee, green",
+  ea: "ea, teacher",
+  ai: "ai, rain",
+  ay: "ay, play",
+  oa: "oa, boat",
+  ow: "ow, snow",
+  ou: "ou, mouth",
+  oo: "oo, moon",
+  "oi-oy": "oi, boy",
+  all: "all, ball",
+  ar: "ar, car",
+  er: "er, teacher",
+  "ir-ur": "ir, bird, ur, turn",
+  or: "or, corn",
+  "a-e": "a consonant e, long a, cake",
+  "e-e": "e consonant e, long e, Pete",
+  "i-e": "i consonant e, long i, bike",
+  "o-e": "o consonant e, long o, home",
+  "u-e": "u consonant e, long u, cute",
+  "magic-e": "magic e, cake, bike",
+  "soft-c": "soft c, city",
+  "soft-g": "soft g, giant",
+  sk: "sk says sg, skate",
+  sl: "sl, slide",
+  st: "st says sd, stamp",
+  sw: "sw, swing",
+  sm: "sm, smile",
+  sn: "sn, snow",
+  sp: "sp says sb, speak",
+  "s-blend": "s blend, skate, slide, star",
+  "l-blend": "l blend, black, clap, flag",
+  br: "br, brother",
+  cr: "cr, cry",
+  dr: "dr, drink",
+  fr: "fr, fruit",
+  gr: "gr, green",
+  pr: "pr, prince",
+  tr: "tr, tree",
+  "r-blend": "r blend, brown, drum, green",
+  "final-y": "final y, baby, fly",
+  "le-ending": "final le, apple",
+  "igh-eigh": "igh, night, eigh, eight",
+};
+
+const magicERulePriority = ["a-e", "e-e", "i-e", "o-e", "u-e"];
+const inactivePhonicsRuleIds = new Set(["magic-e", "s-blend", "r-blend"]);
+const requiredPracticeModes = ["spelling", "phonics"];
 
 function getPhonicsTokens(word) {
   return word.toLowerCase().split(/[^a-z]+/).filter(Boolean);
@@ -651,6 +859,40 @@ const petStages = [
   },
 ];
 
+badges.splice(
+  0,
+  badges.length,
+  { level: 1, answers: 5, icon: "H1", name: "H1 入門徽章" },
+  { answers: 10, icon: "10", name: "答對 10 題" },
+  { level: 2, answers: 25, icon: "H2", name: "H2 進擊徽章" },
+  { answers: 50, icon: "50", name: "答對 50 題" },
+  { level: 3, answers: 75, icon: "H3", name: "H3 規則徽章" },
+  { answers: 100, icon: "100", name: "答對 100 題" },
+  { level: 4, answers: 150, icon: "H4", name: "H4 戰術徽章" },
+  { answers: 200, icon: "200", name: "答對 200 題" },
+  { level: 5, answers: 300, icon: "H5", name: "H5 菁英徽章" },
+  { answers: 400, icon: "400", name: "答對 400 題" },
+  { level: 6, answers: 500, icon: "H6", name: "H6 王者徽章" },
+  { answers: 650, icon: "MAX", name: "答對 650 題" }
+);
+
+petStages.splice(
+  0,
+  petStages.length,
+  { level: 1, answers: 0, icon: "V1", name: "Volt Rookie", colors: ["#202a4d", "#4b5bff", "#78eeff", "#1d7cff", "#ffd141"] },
+  { level: 1, answers: 10, icon: "V2", name: "Volt Striker", colors: ["#07182d", "#245cff", "#78eeff", "#00c2ff", "#ffd141"] },
+  { level: 2, answers: 25, icon: "B1", name: "Blaze Runner", colors: ["#31152d", "#ff4f7b", "#ffd141", "#ff7a1a", "#ffe66d"] },
+  { level: 2, answers: 50, icon: "B2", name: "Blaze Raider", colors: ["#260b1f", "#ff315f", "#ffe66d", "#ff8c1a", "#ffffff"] },
+  { level: 3, answers: 75, icon: "A1", name: "Aero Striker", colors: ["#081c30", "#00a8ff", "#78eeff", "#315cff", "#ffffff"] },
+  { level: 3, answers: 100, icon: "A2", name: "Aero Vanguard", colors: ["#061421", "#19d3ff", "#9ff8ff", "#2d62ff", "#ffe66d"] },
+  { level: 4, answers: 150, icon: "N1", name: "Nova Breaker", colors: ["#1f103d", "#7d35ff", "#ff477e", "#ffb000", "#ffd141"] },
+  { level: 4, answers: 200, icon: "N2", name: "Nova Reaper", colors: ["#17082d", "#9a42ff", "#ff477e", "#ffcc33", "#ffffff"] },
+  { level: 5, answers: 300, icon: "L1", name: "Legend Core", colors: ["#050816", "#121a34", "#ffd141", "#78eeff", "#ff477e"] },
+  { level: 5, answers: 400, icon: "L2", name: "Legend Nova", colors: ["#030712", "#1b2550", "#ffe66d", "#78eeff", "#ff6b9a"] },
+  { level: 6, answers: 500, icon: "X1", name: "Mythic Core", colors: ["#030712", "#0f172a", "#f8fafc", "#38bdf8", "#facc15"] },
+  { level: 6, answers: 650, icon: "X2", name: "Mythic Titan", colors: ["#020617", "#1e1b4b", "#facc15", "#67e8f9", "#fb7185"] }
+);
+
 const storageKey = "wordBuddyQuestProgress";
 const profileStorageKey = "wordBuddyQuestPlayers";
 const lastPlayerStorageKey = "wordBuddyQuestLastPlayer";
@@ -701,9 +943,14 @@ const checkSpellButton = document.querySelector("#checkSpellButton");
 function getDefaultState() {
   return {
     score: 0,
+    correctAnswers: 0,
     streak: 0,
     level: 1,
     energy: 0,
+    modeEnergy: {
+      spelling: 0,
+      phonics: 0,
+    },
     category: "all",
     practiceMode: "spelling",
     currentWordId: null,
@@ -819,6 +1066,29 @@ function enterPlayer() {
   startRound();
 }
 
+function clampProgress(value, max = 100) {
+  return Math.min(max, Math.max(0, Number(value) || 0));
+}
+
+function normalizeModeEnergy() {
+  const fallbackEnergy = clampProgress(state.energy);
+  const savedModeEnergy = state.modeEnergy && typeof state.modeEnergy === "object" ? state.modeEnergy : {};
+  state.modeEnergy = requiredPracticeModes.reduce((progress, mode) => {
+    progress[mode] = clampProgress(savedModeEnergy[mode] ?? fallbackEnergy);
+    return progress;
+  }, {});
+}
+
+function getModeEnergy() {
+  normalizeModeEnergy();
+  return state.modeEnergy;
+}
+
+function syncCombinedEnergy() {
+  const modeEnergy = getModeEnergy();
+  state.energy = Math.min(...requiredPracticeModes.map((mode) => modeEnergy[mode]));
+}
+
 function normalizeState() {
   if (legacyCategoryMap[state.category]) {
     state.category = legacyCategoryMap[state.category];
@@ -827,9 +1097,12 @@ function normalizeState() {
   state.category = getGroupedCategory(state.category);
 
   state.score = Math.max(0, Number(state.score) || 0);
+  state.correctAnswers = Math.max(0, Number(state.correctAnswers) || 0);
   state.streak = Math.max(0, Number(state.streak) || 0);
   state.level = Math.max(1, Number(state.level) || 1);
-  state.energy = Math.min(99, Math.max(0, Number(state.energy) || 0));
+  state.energy = clampProgress(state.energy);
+  normalizeModeEnergy();
+  syncCombinedEnergy();
 
   const lessonIds = lessonPlan.map((lesson) => lesson.id);
   const selectedLesson = lessonPlan.find((lesson) => lesson.id === state.category);
@@ -870,9 +1143,9 @@ function getUnlockedWords() {
   return words.filter((item) => item.level <= state.level);
 }
 
-function getWordPool() {
+function getWordPool(mode = state.practiceMode) {
   const unlockedWords = getUnlockedWords();
-  if (state.practiceMode === "phonics") {
+  if (mode === "phonics") {
     const phonicsWords = unlockedWords.filter((item) => item.phonicsRuleIds.length);
     if (state.category === "all") return phonicsWords.length ? phonicsWords : unlockedWords;
 
@@ -886,9 +1159,9 @@ function getWordPool() {
   return selectedWords.length ? selectedWords : unlockedWords;
 }
 
-function getProgressKey() {
+function getProgressKey(mode = state.practiceMode) {
   const baseKey = state.category === "all" ? `all-level-${state.level}` : state.category;
-  return `${state.practiceMode}-${baseKey}`;
+  return `${mode}-${baseKey}`;
 }
 
 function getPoolById(pool) {
@@ -924,6 +1197,19 @@ function getPendingReviewWord(pool = getWordPool()) {
 
 function hasPendingReview(pool = getWordPool()) {
   return Boolean(getPendingReviewWord(pool));
+}
+
+function hasPendingReviewForMode(mode) {
+  const key = getProgressKey(mode);
+  const poolById = getPoolById(getWordPool(mode));
+  const queue = Array.isArray(state.reviewQueueByKey[key]) ? state.reviewQueueByKey[key] : [];
+  const cleanQueue = queue.filter((id) => poolById.has(id));
+  state.reviewQueueByKey[key] = cleanQueue;
+  return cleanQueue.length > 0;
+}
+
+function hasAnyPendingReviewForLevel() {
+  return requiredPracticeModes.some((mode) => hasPendingReviewForMode(mode));
 }
 
 function getWordFromProgress() {
@@ -1035,13 +1321,26 @@ function getRuleById(ruleId) {
   return phonicsRules.find((rule) => rule.id === ruleId);
 }
 
-function getPrimaryPhonicsRule(word) {
+function getPhonicsRulesForWord(word) {
   const ruleIds = word.phonicsRuleIds.length ? word.phonicsRuleIds : findPhonicsRules(word.word).map((rule) => rule.id);
-  return getRuleById(ruleIds[0]);
+  return ruleIds.map(getRuleById).filter(Boolean);
 }
 
-function createPhonicsChoices(answerRule) {
-  const distractors = shuffle(phonicsRules.filter((rule) => rule.id !== answerRule.id)).slice(0, 3);
+function getPrimaryPhonicsRule(word) {
+  const rules = getPhonicsRulesForWord(word);
+  const magicERule = magicERulePriority.map(getRuleById).find((rule) => rules.includes(rule));
+  return magicERule || rules[0];
+}
+
+function getValidRuleIdsForWord(word, answerRule) {
+  const validRuleIds = new Set(getPhonicsRulesForWord(word).map((rule) => rule.id));
+  if (answerRule) validRuleIds.add(answerRule.id);
+  return validRuleIds;
+}
+
+function createPhonicsChoices(answerRule, word) {
+  const validRuleIds = getValidRuleIdsForWord(word, answerRule);
+  const distractors = shuffle(phonicsRules.filter((rule) => !validRuleIds.has(rule.id) && !inactivePhonicsRuleIds.has(rule.id))).slice(0, 3);
   return shuffle([answerRule, ...distractors]);
 }
 
@@ -1052,6 +1351,17 @@ function speakWord(word) {
   utterance.lang = "en-US";
   utterance.rate = 0.78;
   utterance.pitch = 1.12;
+  window.speechSynthesis.speak(utterance);
+}
+
+function speakPhonicsRule(rule) {
+  if (!rule || !("speechSynthesis" in window)) return;
+  window.speechSynthesis.cancel();
+  const cue = phonicsSpeechCues[rule.id] || `${rule.label}, ${rule.sound}`;
+  const utterance = new SpeechSynthesisUtterance(cue);
+  utterance.lang = "en-US";
+  utterance.rate = 0.68;
+  utterance.pitch = 1.05;
   window.speechSynthesis.speak(utterance);
 }
 
@@ -1108,8 +1418,31 @@ function renderLevelRoad() {
   });
 }
 
+function isBadgeUnlocked(badge) {
+  const answerGoal = Number(badge.answers) || 0;
+  const levelGoal = Number(badge.level) || 1;
+  return state.correctAnswers >= answerGoal && state.level >= levelGoal;
+}
+
+function getBadgeRequirement(badge) {
+  const parts = [];
+  if (badge.level) parts.push(`Lv.${badge.level}`);
+  if (badge.answers) parts.push(`答對 ${badge.answers} 題`);
+  return parts.join(" · ");
+}
+
+function isPetUnlocked(item) {
+  return state.level >= (Number(item.level) || 1) && state.correctAnswers >= (Number(item.answers) || 0);
+}
+
+function getPetRequirement(item) {
+  const parts = [`Lv.${item.level}`];
+  if (item.answers) parts.push(`答對 ${item.answers} 題`);
+  return parts.join(" · ");
+}
+
 function getActivePet() {
-  return [...petStages].reverse().find((item) => state.level >= item.level) || petStages[0];
+  return [...petStages].reverse().find(isPetUnlocked) || petStages[0];
 }
 
 function renderActivePet() {
@@ -1137,33 +1470,37 @@ function updateStats() {
   scoreText.textContent = state.score;
   streakText.textContent = state.streak;
   levelText.textContent = state.level;
-  energyText.textContent = `${state.energy} / 100`;
-  energyFill.style.width = `${state.energy}%`;
+  const modeEnergy = getModeEnergy();
+  const gateProgress = Math.min(modeEnergy.spelling, modeEnergy.phonics);
+  energyText.textContent = `單字 ${modeEnergy.spelling} / 100 · 發音 ${modeEnergy.phonics} / 100`;
+  energyFill.style.width = `${gateProgress}%`;
 
-  const unlocked = badges.filter((badge) => state.score >= badge.score).length;
+  const unlocked = badges.filter(isBadgeUnlocked).length;
   document.querySelector("#badgeCount").textContent = `${unlocked} / ${badges.length}`;
   badgeRow.innerHTML = "";
 
   badges.forEach((badge) => {
+    const badgeUnlocked = isBadgeUnlocked(badge);
     const badgeNode = document.createElement("div");
-    badgeNode.className = `badge${state.score >= badge.score ? " unlocked" : ""}`;
-    badgeNode.textContent = state.score >= badge.score ? badge.icon : "🔒";
-    badgeNode.title = state.score >= badge.score ? badge.name : `${badge.score} 集點解鎖`;
+    badgeNode.className = `badge${badgeUnlocked ? " unlocked" : ""}`;
+    badgeNode.textContent = badgeUnlocked ? badge.icon : "LOCK";
+    badgeNode.title = badgeUnlocked ? badge.name : getBadgeRequirement(badge);
     badgeRow.appendChild(badgeNode);
   });
 
-  const unlockedBuddies = petStages.filter((item) => state.level >= item.level).length;
+  const unlockedBuddies = petStages.filter(isPetUnlocked).length;
   document.querySelector("#buddyCount").textContent = `${unlockedBuddies} / ${petStages.length}`;
   buddyRow.innerHTML = "";
 
   petStages.forEach((item) => {
+    const petUnlocked = isPetUnlocked(item);
     const node = document.createElement("div");
-    node.className = `buddy-card${state.level >= item.level ? " unlocked" : ""}`;
+    node.className = `buddy-card${petUnlocked ? " unlocked" : ""}`;
     node.innerHTML = `
-      <span>${state.level >= item.level ? item.icon : "🔒"}</span>
-      <strong>${state.level >= item.level ? item.name : `Lv.${item.level}`}</strong>
+      <span>${petUnlocked ? item.icon : "LOCK"}</span>
+      <strong>${petUnlocked ? item.name : getPetRequirement(item)}</strong>
     `;
-    node.title = state.level >= item.level ? item.name : `等級 ${item.level} 解鎖`;
+    node.title = petUnlocked ? item.name : getPetRequirement(item);
     buddyRow.appendChild(node);
   });
 }
@@ -1223,7 +1560,13 @@ function renderSpellingRound() {
 
 function renderPhonicsRound() {
   currentPhonicsRule = getPrimaryPhonicsRule(currentWord);
-  questionWord.textContent = currentWord.word;
+  const wordLabel = document.createElement("span");
+  wordLabel.className = "question-word-en";
+  wordLabel.textContent = currentWord.word;
+  const meaningLabel = document.createElement("span");
+  meaningLabel.className = "question-word-zh";
+  meaningLabel.textContent = currentWord.zh;
+  questionWord.replaceChildren(wordLabel, meaningLabel);
   hintText.textContent = "聽單字，選出最明顯的自然發音組合。";
   feedback.textContent =
     state.currentWordSource === "review"
@@ -1238,13 +1581,23 @@ function renderPhonicsRound() {
     return;
   }
 
-  createPhonicsChoices(currentPhonicsRule).forEach((rule) => {
+  const otherValidRules = getPhonicsRulesForWord(currentWord).filter((rule) => rule.id !== currentPhonicsRule.id);
+  hintText.textContent = otherValidRules.length
+    ? `單選題：這題主考 ${currentPhonicsRule.label}；${otherValidRules
+        .map((rule) => rule.label)
+        .join(" / ")} 也是這個單字的規則，所以不會放進選項。`
+    : `單選題：選出 ${currentWord.word} 最明顯的自然發音組合。`;
+
+  createPhonicsChoices(currentPhonicsRule, currentWord).forEach((rule) => {
     const node = choiceTemplate.content.firstElementChild.cloneNode(true);
     node.classList.add("phonics-card");
     node.dataset.ruleId = rule.id;
     node.querySelector(".choice-emoji").textContent = rule.emoji;
     node.querySelector(".choice-text").textContent = `${rule.label}：${rule.sound}`;
-    node.addEventListener("click", () => answerPhonicsQuestion(rule, node));
+    node.addEventListener("click", () => {
+      speakPhonicsRule(rule);
+      answerPhonicsQuestion(rule, node);
+    });
     choiceGrid.appendChild(node);
   });
 
@@ -1308,26 +1661,40 @@ function undoSpelling() {
   updateSpellingDisplay();
 }
 
-function rewardCorrectAnswer(baseEnergy) {
-  const streakBonus = Math.min(state.streak * 2, 10);
-  const earned = 10 + streakBonus;
-  state.score += earned;
-  state.streak += 1;
-  state.energy += baseEnergy + streakBonus;
+function getSpellingScorePoints(word) {
+  const length = normalizeSpelling(word).length;
+  if (length <= 5) return 1;
+  if (length <= 7) return 2;
+  if (length <= 10) return 3;
+  return 4;
+}
 
-  while (state.energy >= 100) {
-    if (hasPendingReview()) {
-      state.energy = 99;
+function rewardCorrectAnswer(baseEnergy, scorePoints = 1) {
+  const streakBonus = Math.min(state.streak * 2, 10);
+  const earned = Math.max(1, Number(scorePoints) || 1);
+  const modeEnergy = getModeEnergy();
+  const activeMode = requiredPracticeModes.includes(state.practiceMode) ? state.practiceMode : "spelling";
+  state.score += earned;
+  state.correctAnswers += 1;
+  state.streak += 1;
+  modeEnergy[activeMode] = Math.min(100, modeEnergy[activeMode] + baseEnergy + streakBonus);
+
+  while (requiredPracticeModes.every((mode) => modeEnergy[mode] >= 100)) {
+    if (hasAnyPendingReviewForLevel()) {
       state.levelUpBlocked = true;
       break;
     }
 
-    state.energy -= 100;
+    requiredPracticeModes.forEach((mode) => {
+      modeEnergy[mode] = 0;
+    });
     state.level += 1;
     state.levelUpBlocked = false;
     state.currentWordId = null;
     state.currentWordSource = "main";
   }
+
+  syncCombinedEnergy();
 
   buddy.classList.remove("buddy-idle");
   buddy.classList.add("buddy-cheer");
@@ -1349,7 +1716,7 @@ function finishCurrentWord() {
     advanceProgress();
   }
 
-  if (!hasPendingReview()) {
+  if (!hasAnyPendingReviewForLevel()) {
     state.levelUpBlocked = false;
   }
 
@@ -1368,7 +1735,7 @@ function answerMeaningQuestion(choice, selectedNode) {
   });
 
   if (isCorrect) {
-    const earned = rewardCorrectAnswer(22);
+    const earned = rewardCorrectAnswer(22, 1);
     feedback.className = "feedback good";
     feedback.textContent = `答對了！${currentWord.word} 是「${currentWord.zh}」，集點 +${earned}。`;
     finishCurrentWord();
@@ -1395,7 +1762,7 @@ function answerPhonicsQuestion(rule, selectedNode) {
 
   if (isCorrect) {
     finishCurrentWord();
-    const earned = rewardCorrectAnswer(26);
+    const earned = rewardCorrectAnswer(26, 1);
     feedback.className = "feedback good";
     feedback.textContent = `答對了！${currentWord.word} 裡有 ${currentPhonicsRule.label}，${currentPhonicsRule.tip} 集點 +${earned}。`;
   } else {
@@ -1418,7 +1785,7 @@ function checkSpelling() {
   if (typed === answer) {
     answered = true;
     finishCurrentWord();
-    const earned = rewardCorrectAnswer(28);
+    const earned = rewardCorrectAnswer(28, getSpellingScorePoints(currentWord.word));
     feedback.className = "feedback good";
     feedback.textContent = `拼對了！「${currentWord.zh}」就是 ${currentWord.word}，集點 +${earned}。`;
     [...letterBank.children].forEach((button) => {
@@ -1441,9 +1808,14 @@ function checkSpelling() {
 
 function resetProgress() {
   state.score = 0;
+  state.correctAnswers = 0;
   state.streak = 0;
   state.level = 1;
   state.energy = 0;
+  state.modeEnergy = {
+    spelling: 0,
+    phonics: 0,
+  };
   state.category = "all";
   state.practiceMode = "spelling";
   state.currentWordId = null;
