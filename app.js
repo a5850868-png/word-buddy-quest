@@ -621,33 +621,33 @@ const badges = [
 const petStages = [
   {
     level: 1,
-    icon: "🐣",
-    name: "Flufflet",
-    colors: ["#ffef8a", "#ff9f7a", "#72d8ff", "#4a7dff", "#5fd3a5"],
+    icon: "🔮",
+    name: "Mindlet",
+    colors: ["#f5f1ff", "#d9b8ff", "#b893ff", "#7d65d8", "#9b63ff"],
   },
   {
     level: 5,
-    icon: "🌿",
-    name: "Leafloo",
-    colors: ["#d9ff8a", "#61c77a", "#9fffd8", "#1aa99a", "#f6d85f"],
+    icon: "💫",
+    name: "Psyloo",
+    colors: ["#ffffff", "#c9ddff", "#d8b6ff", "#7f8cff", "#72d8ff"],
   },
   {
     level: 9,
     icon: "💎",
-    name: "Gemkid",
-    colors: ["#d8f5ff", "#7f8cff", "#a7fff3", "#4a7dff", "#ff91c8"],
+    name: "Aurakid",
+    colors: ["#eef7ff", "#b7a4ff", "#a7fff3", "#4a7dff", "#ff91c8"],
   },
   {
     level: 13,
     icon: "⭐",
-    name: "Cometot",
-    colors: ["#fff1a6", "#ff755f", "#ffd36a", "#7d65d8", "#72d8ff"],
+    name: "Nebulot",
+    colors: ["#f7e6ff", "#b45cff", "#ffd36a", "#7d65d8", "#72d8ff"],
   },
   {
     level: 17,
     icon: "👑",
-    name: "Word Champ",
-    colors: ["#f7e6ff", "#b45cff", "#ffd36a", "#ff8fb3", "#5fd3a5"],
+    name: "Word Sage",
+    colors: ["#ffffff", "#a98cff", "#ffd36a", "#ff8fb3", "#7d65d8"],
   },
 ];
 
