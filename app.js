@@ -30,6 +30,17 @@ const lessonPlan = [
   { id: "vocab-h6-02", unlockLevel: 29, title: "新版 H6-02", subtitle: "Vocabulary H6-02", icon: "📓" },
 ];
 
+lessonPlan.splice(
+  0,
+  lessonPlan.length,
+  { id: "h1", unlockLevel: 1, title: "H1", subtitle: "H1 全部單字", icon: "📘" },
+  { id: "h2", unlockLevel: 2, title: "H2", subtitle: "H2 全部單字", icon: "📗" },
+  { id: "h3", unlockLevel: 3, title: "H3", subtitle: "H3 全部單字", icon: "📙" },
+  { id: "h4", unlockLevel: 4, title: "H4", subtitle: "H4 全部單字", icon: "📕" },
+  { id: "h5", unlockLevel: 5, title: "H5", subtitle: "H5 全部單字", icon: "📒" },
+  { id: "h6", unlockLevel: 6, title: "H6", subtitle: "H6 全部單字", icon: "📓" },
+);
+
 const lessonWordData = {
   "h1-l1": [
     ["classroom", "教室", "🏫"],
@@ -320,6 +331,16 @@ function slugWord(word) {
   return word.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
+function getGroupedCategory(category) {
+  const vocabMatch = category.match(/^vocab-h([1-6])/);
+  if (vocabMatch) return `h${vocabMatch[1]}`;
+
+  const lessonMatch = category.match(/^h([1-6])/);
+  if (lessonMatch) return `h${lessonMatch[1]}`;
+
+  return category;
+}
+
 const phonicsRules = [
   {
     id: "ch",
@@ -569,18 +590,20 @@ const words = [];
 const seenWordKeys = new Set();
 
 Object.entries(lessonWordData).forEach(([category, entries]) => {
-  const lesson = lessonPlan.find((item) => item.id === category);
+  const groupedCategory = getGroupedCategory(category);
+  const lesson = lessonPlan.find((item) => item.id === groupedCategory);
+  if (!lesson) return;
 
   entries.forEach(([word, zh, emoji]) => {
     const wordKey = normalizeSpelling(word);
     if (seenWordKeys.has(wordKey)) return;
     seenWordKeys.add(wordKey);
     words.push({
-      id: `${category}-${slugWord(word)}`,
+      id: `${groupedCategory}-${slugWord(word)}`,
       word,
       zh,
       emoji,
-      category,
+      category: groupedCategory,
       level: lesson.unlockLevel,
       phonicsRuleIds: findPhonicsRules(word).map((rule) => rule.id),
     });
@@ -800,6 +823,8 @@ function normalizeState() {
   if (legacyCategoryMap[state.category]) {
     state.category = legacyCategoryMap[state.category];
   }
+
+  state.category = getGroupedCategory(state.category);
 
   state.score = Math.max(0, Number(state.score) || 0);
   state.streak = Math.max(0, Number(state.streak) || 0);
