@@ -7,16 +7,37 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="app-shell">
+    <section class="login-panel" id="loginPanel" aria-label="玩家登入">
+      <div class="login-card">
+        <p class="eyebrow">Player Login</p>
+        <h1>選擇玩家</h1>
+        <p>輸入名字或選擇之前的玩家，就可以接續自己的單字進度。</p>
+        <div class="login-fields">
+          <label for="playerNameInput">玩家名字</label>
+          <input id="playerNameInput" type="text" maxlength="18" placeholder="例如：小安" autocomplete="off" />
+          <label for="playerSelect">已儲存玩家</label>
+          <select id="playerSelect">
+            <option value="">尚無玩家</option>
+          </select>
+        </div>
+        <p class="login-message" id="loginMessage" role="status"></p>
+        <button class="secondary-button start-button" id="startPlayerButton" type="button">開始 / 接續</button>
+      </div>
+    </section>
+
+    <main class="app-shell" id="appShell" hidden>
       <section class="hero-panel" aria-label="夥伴與遊戲進度">
         <div class="top-bar">
           <div>
             <p class="eyebrow">H1-H4 English Quest</p>
             <h1>Word Buddy Quest</h1>
           </div>
-          <button class="icon-button" id="soundButton" type="button" aria-label="播放英文單字">
-            <span aria-hidden="true">🔊</span>
-          </button>
+          <div class="top-actions">
+            <button class="icon-button" id="soundButton" type="button" aria-label="播放英文單字">
+              <span aria-hidden="true">🔊</span>
+            </button>
+            <button class="text-button" id="switchPlayerButton" type="button">換玩家</button>
+          </div>
         </div>
 
         <div class="creature-stage" aria-live="polite">
@@ -25,20 +46,20 @@
           <svg class="buddy buddy-idle" viewBox="0 0 260 220" role="img" aria-label="原創單字夥伴 Flufflet">
             <defs>
               <linearGradient id="bodyGradient" x1="0" x2="1" y1="0" y2="1">
-                <stop offset="0%" stop-color="#ffef8a" />
-                <stop offset="100%" stop-color="#ff9f7a" />
+                <stop id="bodyStopA" offset="0%" stop-color="#ffef8a" />
+                <stop id="bodyStopB" offset="100%" stop-color="#ff9f7a" />
               </linearGradient>
               <linearGradient id="wingGradient" x1="0" x2="1">
-                <stop offset="0%" stop-color="#72d8ff" />
-                <stop offset="100%" stop-color="#4a7dff" />
+                <stop id="wingStopA" offset="0%" stop-color="#72d8ff" />
+                <stop id="wingStopB" offset="100%" stop-color="#4a7dff" />
               </linearGradient>
             </defs>
             <ellipse cx="132" cy="202" rx="72" ry="12" fill="#273046" opacity=".18" />
             <path d="M72 104c-31-5-48 12-51 31-4 25 21 48 58 42z" fill="url(#wingGradient)" />
             <path d="M188 104c31-5 48 12 51 31 4 25-21 48-58 42z" fill="url(#wingGradient)" />
             <path d="M58 86c16-58 58-80 96-64 39 16 61 70 46 121-12 42-42 62-82 58-45-5-74-55-60-115z" fill="url(#bodyGradient)" />
-            <path d="M93 36c-4-20 10-33 25-25 5 12 1 24-10 36z" fill="#5fd3a5" />
-            <path d="M149 32c8-20 27-23 36-8-2 14-13 23-31 24z" fill="#5fd3a5" />
+            <path id="crestA" d="M93 36c-4-20 10-33 25-25 5 12 1 24-10 36z" fill="#5fd3a5" />
+            <path id="crestB" d="M149 32c8-20 27-23 36-8-2 14-13 23-31 24z" fill="#5fd3a5" />
             <circle cx="100" cy="103" r="16" fill="#28334d" />
             <circle cx="155" cy="96" r="16" fill="#28334d" />
             <circle cx="106" cy="97" r="5" fill="#fff" />
@@ -49,6 +70,14 @@
             <path d="M110 174c-1 12-8 21-19 21" fill="none" stroke="#28334d" stroke-width="8" stroke-linecap="round" />
             <path d="M158 170c4 12 13 19 24 17" fill="none" stroke="#28334d" stroke-width="8" stroke-linecap="round" />
           </svg>
+        </div>
+
+        <div class="pet-status" aria-live="polite">
+          <span id="activePetIcon">🐣</span>
+          <div>
+            <strong id="activePetName">Flufflet</strong>
+            <small id="playerText">玩家：--</small>
+          </div>
         </div>
 
         <div class="stats-grid" aria-label="分數與等級">
@@ -89,10 +118,7 @@
         </div>
 
         <div class="mode-tabs" aria-label="選擇練習模式">
-          <button class="mode-tab active" type="button" data-mode="meaning" aria-pressed="true">
-            中文意思
-          </button>
-          <button class="mode-tab" type="button" data-mode="spelling" aria-pressed="false">
+          <button class="mode-tab active" type="button" data-mode="spelling" aria-pressed="true">
             拼字
           </button>
           <button class="mode-tab" type="button" data-mode="phonics" aria-pressed="false">

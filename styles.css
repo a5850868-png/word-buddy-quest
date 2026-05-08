@@ -29,8 +29,71 @@ body {
 }
 
 button,
-select {
+select,
+input {
   font: inherit;
+}
+
+.login-panel {
+  width: min(560px, calc(100% - 32px));
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 28px 0;
+  display: grid;
+  place-items: center;
+}
+
+.login-panel[hidden],
+.app-shell[hidden] {
+  display: none;
+}
+
+.login-card {
+  width: 100%;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 28px;
+  padding: 28px;
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+}
+
+.login-card h1 {
+  margin-bottom: 12px;
+}
+
+.login-fields {
+  display: grid;
+  gap: 8px;
+  margin: 22px 0 14px;
+}
+
+.login-fields label {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 1000;
+}
+
+.login-fields input,
+.login-fields select {
+  width: 100%;
+  min-height: 48px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 0 14px;
+  color: var(--ink);
+  background: #fff;
+  font-weight: 900;
+}
+
+.login-message {
+  min-height: 1.4em;
+  color: var(--coral);
+  font-weight: 900;
+}
+
+.start-button {
+  width: 100%;
 }
 
 .app-shell {
@@ -74,6 +137,23 @@ select {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.text-button {
+  min-height: 42px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 0 12px;
+  color: var(--ink);
+  background: #fff;
+  font-weight: 1000;
+  cursor: pointer;
 }
 
 .eyebrow {
@@ -186,6 +266,39 @@ h3 {
   animation: cheer 0.7s ease;
 }
 
+.pet-status {
+  min-height: 74px;
+  margin: -4px 0 16px;
+  padding: 12px 14px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.pet-status span {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  font-size: 2rem;
+}
+
+.pet-status strong,
+.pet-status small {
+  display: block;
+}
+
+.pet-status small {
+  margin-top: 2px;
+  color: var(--muted);
+  font-weight: 900;
+}
+
 @keyframes bob {
   0%,
   100% {
@@ -279,7 +392,7 @@ select {
 
 .mode-tabs {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
   margin: 18px 0 0;
   padding: 6px;

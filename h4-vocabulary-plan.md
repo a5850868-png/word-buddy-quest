@@ -22,12 +22,31 @@
 | Lv.16 | H4-L4 | Sports 運動 | basketball, baseball, tennis, badminton, bowling, golf, soccer, ping-pong, volleyball |
 | Lv.17 | H4 Final Review | 期末複習 | brother, sister, grandfather, friend, three, white, green, cherry, cheese, French fries, drum, trumpet, cream, watch |
 
+## 遊戲模式
+
+- 拼字模式：看中文提示，從答案字母加上額外干擾字母的字母池中拼出英文單字。
+- 自然發音模式：看/聽單字，選出它包含的字母組合規則。
+- 已移除英文對中文選擇題，讓練習重心放在真正會拼、會看發音規則。
+
 ## 記憶進度
 
-- `localStorage` 會儲存分數、連續答對、等級、目前模式、選擇的課別、目前題目與每個課別的下一題位置。
+- `localStorage` 會依照玩家名字儲存分數、連續答對、等級、目前模式、選擇的課別、目前題目與每個課別的下一題位置。
+- 同一台裝置可以建立多位玩家，下次打開後選自己的名字即可接續。
+- 每位玩家在同一個模式與級數中會有自己的洗牌單字順序，不會每個人都看到一樣的題目順序。
+- 答錯的單字會先放進該級數的複習隊列，等能量要升等時再出現；補答正確後才會真正升等。
 - 答對後會把該課別的進度往下一個單字推進。
 - 答錯或還沒答完就關掉網頁，下次會回到同一題繼續練。
 - 這份紀錄存在使用中的瀏覽器與裝置上；清除網站資料或換裝置會重新開始。
+
+## 小寵物等級
+
+| 解鎖等級 | 小寵物 |
+| --- | --- |
+| Lv.1 | Flufflet |
+| Lv.5 | Leafloo |
+| Lv.9 | Gemkid |
+| Lv.13 | Cometot |
+| Lv.17 | Word Champ |
 
 ## 自然發音規則
 

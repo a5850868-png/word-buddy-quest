@@ -535,15 +535,49 @@ const badges = [
   { score: 900, icon: "🏆", name: "期末複習冠軍" },
 ];
 
-const buddies = [
-  { level: 1, icon: "🐣", name: "Flufflet" },
-  { level: 5, icon: "🌿", name: "Leafloo" },
-  { level: 9, icon: "💎", name: "Gemkid" },
-  { level: 13, icon: "⭐", name: "Cometot" },
-  { level: 17, icon: "👑", name: "Word Champ" },
+const petStages = [
+  {
+    level: 1,
+    icon: "🐣",
+    name: "Flufflet",
+    colors: ["#ffef8a", "#ff9f7a", "#72d8ff", "#4a7dff", "#5fd3a5"],
+  },
+  {
+    level: 5,
+    icon: "🌿",
+    name: "Leafloo",
+    colors: ["#d9ff8a", "#61c77a", "#9fffd8", "#1aa99a", "#f6d85f"],
+  },
+  {
+    level: 9,
+    icon: "💎",
+    name: "Gemkid",
+    colors: ["#d8f5ff", "#7f8cff", "#a7fff3", "#4a7dff", "#ff91c8"],
+  },
+  {
+    level: 13,
+    icon: "⭐",
+    name: "Cometot",
+    colors: ["#fff1a6", "#ff755f", "#ffd36a", "#7d65d8", "#72d8ff"],
+  },
+  {
+    level: 17,
+    icon: "👑",
+    name: "Word Champ",
+    colors: ["#f7e6ff", "#b45cff", "#ffd36a", "#ff8fb3", "#5fd3a5"],
+  },
 ];
 
 const storageKey = "wordBuddyQuestProgress";
+const profileStorageKey = "wordBuddyQuestPlayers";
+const lastPlayerStorageKey = "wordBuddyQuestLastPlayer";
+const appShell = document.querySelector("#appShell");
+const loginPanel = document.querySelector("#loginPanel");
+const playerNameInput = document.querySelector("#playerNameInput");
+const playerSelect = document.querySelector("#playerSelect");
+const startPlayerButton = document.querySelector("#startPlayerButton");
+const switchPlayerButton = document.querySelector("#switchPlayerButton");
+const loginMessage = document.querySelector("#loginMessage");
 const scoreText = document.querySelector("#scoreText");
 const streakText = document.querySelector("#streakText");
 const levelText = document.querySelector("#levelText");
@@ -562,6 +596,15 @@ const buddyRow = document.querySelector("#buddyRow");
 const levelRoad = document.querySelector("#levelRoad");
 const choiceTemplate = document.querySelector("#choiceTemplate");
 const buddy = document.querySelector(".buddy");
+const activePetIcon = document.querySelector("#activePetIcon");
+const activePetName = document.querySelector("#activePetName");
+const playerText = document.querySelector("#playerText");
+const bodyStopA = document.querySelector("#bodyStopA");
+const bodyStopB = document.querySelector("#bodyStopB");
+const wingStopA = document.querySelector("#wingStopA");
+const wingStopB = document.querySelector("#wingStopB");
+const crestA = document.querySelector("#crestA");
+const crestB = document.querySelector("#crestB");
 const modeButtons = document.querySelectorAll("[data-mode]");
 const spellingPanel = document.querySelector("#spellingPanel");
 const spellClue = document.querySelector("#spellClue");
@@ -572,38 +615,125 @@ const clearSpellButton = document.querySelector("#clearSpellButton");
 const backspaceButton = document.querySelector("#backspaceButton");
 const checkSpellButton = document.querySelector("#checkSpellButton");
 
-let state = {
-  score: 0,
-  streak: 0,
-  level: 1,
-  energy: 0,
-  category: "all",
-  practiceMode: "meaning",
-  currentWordId: null,
-  cursorByCategory: {},
-  lastPlayedAt: null,
-};
+function getDefaultState() {
+  return {
+    score: 0,
+    streak: 0,
+    level: 1,
+    energy: 0,
+    category: "all",
+    practiceMode: "spelling",
+    currentWordId: null,
+    currentWordSource: "main",
+    cursorByCategory: {},
+    wordOrderByKey: {},
+    reviewQueueByKey: {},
+    levelUpBlocked: false,
+    lastPlayedAt: null,
+  };
+}
+
+let currentPlayerName = "";
+let state = getDefaultState();
 
 let currentWord = null;
 let currentPhonicsRule = null;
 let answered = false;
 let selectedLetters = [];
 
-function loadState() {
-  const saved = localStorage.getItem(storageKey);
-  if (!saved) return;
+function normalizePlayerName(name) {
+  return name.trim().replace(/\s+/g, " ").slice(0, 18);
+}
 
+function getProfiles() {
   try {
-    state = { ...state, ...JSON.parse(saved) };
-    normalizeState();
+    return JSON.parse(localStorage.getItem(profileStorageKey)) || {};
   } catch {
-    localStorage.removeItem(storageKey);
+    localStorage.removeItem(profileStorageKey);
+    return {};
   }
 }
 
+function saveProfiles(profiles) {
+  localStorage.setItem(profileStorageKey, JSON.stringify(profiles));
+}
+
+function getLegacyState() {
+  try {
+    const saved = localStorage.getItem(storageKey);
+    return saved ? JSON.parse(saved) : null;
+  } catch {
+    return null;
+  }
+}
+
+function loadState(playerName) {
+  const profiles = getProfiles();
+  const savedProfile = profiles[playerName];
+  const legacyState = Object.keys(profiles).length === 0 ? getLegacyState() : null;
+  state = { ...getDefaultState(), ...(savedProfile || legacyState || {}) };
+  normalizeState();
+}
+
 function saveState() {
+  if (!currentPlayerName) return;
+  const profiles = getProfiles();
   state.lastPlayedAt = new Date().toISOString();
-  localStorage.setItem(storageKey, JSON.stringify(state));
+  profiles[currentPlayerName] = state;
+  saveProfiles(profiles);
+  localStorage.setItem(lastPlayerStorageKey, currentPlayerName);
+}
+
+function renderPlayerOptions() {
+  const profiles = getProfiles();
+  const names = Object.keys(profiles).sort((a, b) => a.localeCompare(b, "zh-Hant"));
+  const lastPlayer = localStorage.getItem(lastPlayerStorageKey) || "";
+  playerSelect.innerHTML = "";
+
+  if (!names.length) {
+    playerSelect.appendChild(new Option("尚無玩家", ""));
+    return;
+  }
+
+  playerSelect.appendChild(new Option("選擇玩家", ""));
+  names.forEach((name) => {
+    const profile = profiles[name];
+    const level = Number(profile?.level) || 1;
+    const option = new Option(`${name}，Lv.${level}`, name);
+    playerSelect.appendChild(option);
+  });
+
+  if (names.includes(lastPlayer)) {
+    playerSelect.value = lastPlayer;
+    playerNameInput.value = lastPlayer;
+  }
+}
+
+function showLogin(message = "") {
+  appShell.hidden = true;
+  loginPanel.hidden = false;
+  loginMessage.textContent = message;
+  renderPlayerOptions();
+  playerNameInput.focus();
+}
+
+function enterPlayer() {
+  const selectedName = playerSelect.value;
+  const typedName = normalizePlayerName(playerNameInput.value);
+  const playerName = typedName || selectedName;
+
+  if (!playerName) {
+    loginMessage.textContent = "請先輸入名字，或選擇一個已儲存的玩家。";
+    return;
+  }
+
+  currentPlayerName = playerName;
+  loadState(currentPlayerName);
+  saveState();
+  loginPanel.hidden = true;
+  appShell.hidden = false;
+  updateStats();
+  startRound();
 }
 
 function normalizeState() {
@@ -625,16 +755,29 @@ function normalizeState() {
     state.category = "all";
   }
 
-  if (!["meaning", "spelling", "phonics"].includes(state.practiceMode)) {
-    state.practiceMode = "meaning";
+  if (!["spelling", "phonics"].includes(state.practiceMode)) {
+    state.practiceMode = "spelling";
   }
 
   if (!state.cursorByCategory || typeof state.cursorByCategory !== "object") {
     state.cursorByCategory = {};
   }
 
+  if (!state.wordOrderByKey || typeof state.wordOrderByKey !== "object") {
+    state.wordOrderByKey = {};
+  }
+
+  if (!state.reviewQueueByKey || typeof state.reviewQueueByKey !== "object") {
+    state.reviewQueueByKey = {};
+  }
+
+  if (!["main", "review"].includes(state.currentWordSource)) {
+    state.currentWordSource = "main";
+  }
+
   if (state.currentWordId && !words.some((item) => item.id === state.currentWordId)) {
     state.currentWordId = null;
+    state.currentWordSource = "main";
   }
 }
 
@@ -659,7 +802,43 @@ function getWordPool() {
 }
 
 function getProgressKey() {
-  return state.category === "all" ? `all-level-${state.level}` : state.category;
+  const baseKey = state.category === "all" ? `all-level-${state.level}` : state.category;
+  return `${state.practiceMode}-${baseKey}`;
+}
+
+function getPoolById(pool) {
+  return new Map(pool.map((item) => [item.id, item]));
+}
+
+function getOrderedPool(pool = getWordPool()) {
+  const key = getProgressKey();
+  const poolById = getPoolById(pool);
+  const existingOrder = Array.isArray(state.wordOrderByKey[key]) ? state.wordOrderByKey[key] : [];
+  const cleanOrder = existingOrder.filter((id) => poolById.has(id));
+  const orderedIds = new Set(cleanOrder);
+  const newIds = pool.filter((item) => !orderedIds.has(item.id)).map((item) => item.id);
+  const fullOrder = [...cleanOrder, ...shuffle(newIds)];
+  state.wordOrderByKey[key] = fullOrder;
+  return fullOrder.map((id) => poolById.get(id)).filter(Boolean);
+}
+
+function getReviewQueue(key = getProgressKey()) {
+  if (!Array.isArray(state.reviewQueueByKey[key])) {
+    state.reviewQueueByKey[key] = [];
+  }
+  return state.reviewQueueByKey[key];
+}
+
+function getPendingReviewWord(pool = getWordPool()) {
+  const poolById = getPoolById(pool);
+  const queue = getReviewQueue();
+  const cleanQueue = queue.filter((id) => poolById.has(id));
+  state.reviewQueueByKey[getProgressKey()] = cleanQueue;
+  return cleanQueue.length ? poolById.get(cleanQueue[0]) : null;
+}
+
+function hasPendingReview(pool = getWordPool()) {
+  return Boolean(getPendingReviewWord(pool));
 }
 
 function getWordFromProgress() {
@@ -669,23 +848,64 @@ function getWordFromProgress() {
   const resumed = pool.find((item) => item.id === state.currentWordId);
   if (resumed) return resumed;
 
+  const reviewWord = state.levelUpBlocked ? getPendingReviewWord(pool) : null;
+  if (reviewWord) {
+    state.currentWordId = reviewWord.id;
+    state.currentWordSource = "review";
+    saveState();
+    return reviewWord;
+  }
+
   const key = getProgressKey();
+  const orderedPool = getOrderedPool(pool);
   const cursor = Number(state.cursorByCategory[key]) || 0;
-  const nextWord = pool[cursor % pool.length];
+  const nextWord = orderedPool[cursor % orderedPool.length];
   state.currentWordId = nextWord.id;
+  state.currentWordSource = "main";
   saveState();
   return nextWord;
 }
 
 function advanceProgress() {
-  const pool = getWordPool();
+  const pool = getOrderedPool();
   if (!currentWord || !pool.length) return;
+
+  if (state.currentWordSource === "review") {
+    const queue = getReviewQueue();
+    const index = queue.indexOf(currentWord.id);
+    if (index >= 0) {
+      queue.splice(index, 1);
+      queue.push(currentWord.id);
+    }
+    state.currentWordId = null;
+    state.currentWordSource = "main";
+    return;
+  }
 
   const key = getProgressKey();
   const currentIndex = pool.findIndex((item) => item.id === currentWord.id);
   const nextIndex = currentIndex >= 0 ? currentIndex + 1 : (Number(state.cursorByCategory[key]) || 0) + 1;
   state.cursorByCategory[key] = nextIndex % pool.length;
   state.currentWordId = null;
+  state.currentWordSource = "main";
+}
+
+function removeReviewWord(wordId) {
+  const queue = getReviewQueue();
+  state.reviewQueueByKey[getProgressKey()] = queue.filter((id) => id !== wordId);
+}
+
+function rememberWrongWord() {
+  if (!currentWord) return;
+  const queue = getReviewQueue();
+  if (!queue.includes(currentWord.id)) {
+    queue.push(currentWord.id);
+  }
+}
+
+function moveIncorrectWordToReview() {
+  rememberWrongWord();
+  advanceProgress();
 }
 
 function normalizeSpelling(word) {
@@ -694,6 +914,21 @@ function normalizeSpelling(word) {
 
 function shuffle(list) {
   return [...list].sort(() => Math.random() - 0.5);
+}
+
+function createSpellingLetters(target) {
+  const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+  const answerLetters = [...target];
+  const answerSet = new Set(answerLetters);
+  const candidates = alphabet.filter((letter) => !answerSet.has(letter));
+  const extraCount = Math.min(7, Math.max(3, Math.ceil(target.length * 0.45)));
+  const extras = [];
+
+  while (extras.length < extraCount) {
+    extras.push(candidates[Math.floor(Math.random() * candidates.length)]);
+  }
+
+  return shuffle([...answerLetters, ...extras]);
 }
 
 function createChoices(answer) {
@@ -788,11 +1023,31 @@ function renderLevelRoad() {
   });
 }
 
+function getActivePet() {
+  return [...petStages].reverse().find((item) => state.level >= item.level) || petStages[0];
+}
+
+function renderActivePet() {
+  const pet = getActivePet();
+  const [bodyA, bodyB, wingA, wingB, crest] = pet.colors;
+  activePetIcon.textContent = pet.icon;
+  activePetName.textContent = pet.name;
+  playerText.textContent = `玩家：${currentPlayerName || "--"}`;
+  buddy.setAttribute("aria-label", `${pet.name}，等級 ${state.level} 小寵物`);
+  bodyStopA.setAttribute("stop-color", bodyA);
+  bodyStopB.setAttribute("stop-color", bodyB);
+  wingStopA.setAttribute("stop-color", wingA);
+  wingStopB.setAttribute("stop-color", wingB);
+  crestA.setAttribute("fill", crest);
+  crestB.setAttribute("fill", crest);
+}
+
 function updateStats() {
   normalizeState();
   renderCategoryOptions();
   renderModeButtons();
   renderLevelRoad();
+  renderActivePet();
 
   scoreText.textContent = state.score;
   streakText.textContent = state.streak;
@@ -812,11 +1067,11 @@ function updateStats() {
     badgeRow.appendChild(badgeNode);
   });
 
-  const unlockedBuddies = buddies.filter((item) => state.level >= item.level).length;
-  document.querySelector("#buddyCount").textContent = `${unlockedBuddies} / ${buddies.length}`;
+  const unlockedBuddies = petStages.filter((item) => state.level >= item.level).length;
+  document.querySelector("#buddyCount").textContent = `${unlockedBuddies} / ${petStages.length}`;
   buddyRow.innerHTML = "";
 
-  buddies.forEach((item) => {
+  petStages.forEach((item) => {
     const node = document.createElement("div");
     node.className = `buddy-card${state.level >= item.level ? " unlocked" : ""}`;
     node.innerHTML = `
@@ -850,11 +1105,14 @@ function renderSpellingRound() {
   const target = normalizeSpelling(currentWord.word);
   selectedLetters = [];
   questionWord.textContent = `${currentWord.emoji} ${currentWord.zh}`;
-  hintText.textContent = "看中文提示，把字母依序點出來，拼出英文單字。";
-  feedback.textContent = "先聽一次發音，再從字母中拼出答案。";
+  hintText.textContent = "看中文提示，從混合字母中挑出正確字母，拼出英文單字。";
+  feedback.textContent =
+    state.currentWordSource === "review"
+      ? "升等前複習題：這個單字之前答錯過，再拼對一次就能繼續升等。"
+      : "裡面有多餘字母，先聽發音，再拼出真正的答案。";
   choiceGrid.hidden = true;
   spellingPanel.hidden = false;
-  spellClue.textContent = `${currentWord.zh}，共 ${target.length} 個字母`;
+  spellClue.textContent = `${currentWord.zh}，答案共 ${target.length} 個字母`;
   spellInput.value = "";
   spellSlots.innerHTML = "";
   letterBank.innerHTML = "";
@@ -865,7 +1123,7 @@ function renderSpellingRound() {
     spellSlots.appendChild(slot);
   });
 
-  shuffle([...target]).forEach((letter, index) => {
+  createSpellingLetters(target).forEach((letter, index) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "letter-tile";
@@ -882,7 +1140,10 @@ function renderPhonicsRound() {
   currentPhonicsRule = getPrimaryPhonicsRule(currentWord);
   questionWord.textContent = currentWord.word;
   hintText.textContent = "聽單字，選出最明顯的自然發音組合。";
-  feedback.textContent = "先看單字裡的字母組合，再聽一次發音。";
+  feedback.textContent =
+    state.currentWordSource === "review"
+      ? "升等前複習題：這個自然發音規則之前答錯過，再答對一次。"
+      : "先看單字裡的字母組合，再聽一次發音。";
   choiceGrid.hidden = false;
   spellingPanel.hidden = true;
   choiceGrid.innerHTML = "";
@@ -921,10 +1182,8 @@ function startRound() {
 
   if (state.practiceMode === "phonics") {
     renderPhonicsRound();
-  } else if (state.practiceMode === "spelling") {
-    renderSpellingRound();
   } else {
-    renderMeaningRound();
+    renderSpellingRound();
   }
 }
 
@@ -972,8 +1231,17 @@ function rewardCorrectAnswer(baseEnergy) {
   state.energy += baseEnergy + streakBonus;
 
   while (state.energy >= 100) {
+    if (hasPendingReview()) {
+      state.energy = 99;
+      state.levelUpBlocked = true;
+      break;
+    }
+
     state.energy -= 100;
     state.level += 1;
+    state.levelUpBlocked = false;
+    state.currentWordId = null;
+    state.currentWordSource = "main";
   }
 
   buddy.classList.remove("buddy-idle");
@@ -983,11 +1251,23 @@ function rewardCorrectAnswer(baseEnergy) {
     buddy.classList.add("buddy-idle");
   }, 720);
 
+  saveState();
   return earned;
 }
 
 function finishCurrentWord() {
-  advanceProgress();
+  if (state.currentWordSource === "review" && currentWord) {
+    removeReviewWord(currentWord.id);
+    state.currentWordId = null;
+    state.currentWordSource = "main";
+  } else {
+    advanceProgress();
+  }
+
+  if (!hasPendingReview()) {
+    state.levelUpBlocked = false;
+  }
+
   saveState();
 }
 
@@ -1029,15 +1309,16 @@ function answerPhonicsQuestion(rule, selectedNode) {
   });
 
   if (isCorrect) {
+    finishCurrentWord();
     const earned = rewardCorrectAnswer(26);
     feedback.className = "feedback good";
     feedback.textContent = `答對了！${currentWord.word} 裡有 ${currentPhonicsRule.label}，${currentPhonicsRule.tip} 集點 +${earned}。`;
-    finishCurrentWord();
   } else {
     state.streak = 0;
     selectedNode.classList.add("wrong");
     feedback.className = "feedback try";
-    feedback.textContent = `這題要注意 ${currentPhonicsRule.label}：${currentPhonicsRule.tip} 下次會繼續練這題。`;
+    feedback.textContent = `這題要注意 ${currentPhonicsRule.label}：${currentPhonicsRule.tip} 這個單字會在升等前再出現。`;
+    moveIncorrectWordToReview();
     saveState();
   }
 
@@ -1051,13 +1332,13 @@ function checkSpelling() {
 
   if (typed === answer) {
     answered = true;
+    finishCurrentWord();
     const earned = rewardCorrectAnswer(28);
     feedback.className = "feedback good";
     feedback.textContent = `拼對了！「${currentWord.zh}」就是 ${currentWord.word}，集點 +${earned}。`;
     [...letterBank.children].forEach((button) => {
       button.disabled = true;
     });
-    finishCurrentWord();
     updateStats();
     return;
   }
@@ -1065,7 +1346,10 @@ function checkSpelling() {
   state.streak = 0;
   feedback.className = "feedback try";
   feedback.textContent =
-    typed.length < answer.length ? "還少幾個字母，再看提示拼一次。" : "字母順序還不對，按清除再試一次。";
+    typed.length < answer.length
+      ? "還少幾個字母，這個單字會在升等前再出現。"
+      : "字母順序還不對，這個單字會在升等前再出現。";
+  moveIncorrectWordToReview();
   saveState();
   updateStats();
 }
@@ -1076,9 +1360,13 @@ function resetProgress() {
   state.level = 1;
   state.energy = 0;
   state.category = "all";
-  state.practiceMode = "meaning";
+  state.practiceMode = "spelling";
   state.currentWordId = null;
+  state.currentWordSource = "main";
   state.cursorByCategory = {};
+  state.wordOrderByKey = {};
+  state.reviewQueueByKey = {};
+  state.levelUpBlocked = false;
   saveState();
   updateStats();
   startRound();
@@ -1116,6 +1404,19 @@ clearSpellButton.addEventListener("click", clearSpelling);
 backspaceButton.addEventListener("click", undoSpelling);
 checkSpellButton.addEventListener("click", checkSpelling);
 
-loadState();
-updateStats();
-startRound();
+startPlayerButton.addEventListener("click", enterPlayer);
+playerNameInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") enterPlayer();
+});
+playerSelect.addEventListener("change", () => {
+  if (playerSelect.value) {
+    playerNameInput.value = playerSelect.value;
+  }
+});
+switchPlayerButton.addEventListener("click", () => {
+  saveState();
+  currentPlayerName = "";
+  showLogin("請選擇要接續的玩家。");
+});
+
+showLogin();
